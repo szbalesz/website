@@ -1,4 +1,5 @@
 import { BackgroundVideo } from "@/components/BackgroundVideo";
+import { ViewCounter } from "@/components/ViewCounter";
 
 export default function Home() {
   return (
@@ -42,6 +43,7 @@ export default function Home() {
                     <span className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-bg-primary"></span>
                   </span>
                 </span>
+                <ViewCounter />
               </div>
 
               {/* AVATAR OVERLAY */}

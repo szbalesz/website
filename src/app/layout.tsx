@@ -21,8 +21,8 @@ const designerFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "SZBALESZ | Linkek",
-  description: "SZBALESZ hivatalos link gyűjteménye.",
+  title: "SZBALESZ",
+  description: "SZBALESZ – közösségi média és elérhetőségek.",
 };
 
 export default function RootLayout({
