@@ -30,7 +30,7 @@ export default function Home() {
                 {/* BADGES */}
                 <div className="absolute right-6 top-4 flex items-center gap-1">
                   <Tooltip>
-                    <TooltipTrigger render={<span className="inline-flex cursor-default" />}>
+                    <TooltipTrigger render={<span className="inline-flex cursor-default outline-none" tabIndex={0} onClick={(e) => e.currentTarget.focus()} />}>
                       <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#f59e0b] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
@@ -42,7 +42,7 @@ export default function Home() {
                   </Tooltip>
 
                   <Tooltip>
-                    <TooltipTrigger render={<span className="inline-flex cursor-default" />}>
+                    <TooltipTrigger render={<span className="inline-flex cursor-default outline-none" tabIndex={0} onClick={(e) => e.currentTarget.focus()} />}>
                       <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#3b82f6] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
@@ -108,7 +108,7 @@ export default function Home() {
                       <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" style={{ backgroundColor: '#9146FF15', borderColor: '#9146FF30' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="#9146FF" className="flex-shrink-0"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></path></svg>
                         <div className="min-w-0 text-left" dir="ltr">
-                          <span className="font-medium" style={{ opacity: 1, backgroundImage: 'linear-gradient(0deg, rgb(255, 200, 82) 0%, rgb(254, 239, 144) 15%, rgb(254, 213, 124) 30%, rgb(255, 255, 255) 60%)', backgroundSize: '100% 100%', backgroundRepeat: 'unset', filter: 'drop-shadow(rgb(255, 162, 0) 0px 0px 4px)', WebkitBackgroundClip: 'text', color: 'transparent' }}>سباليس<span className="hidden sm:inline text-text-primary" style={{ WebkitTextFillColor: 'initial' }}> (szbalesz)</span></span>
+                          <span className="font-medium" style={{ opacity: 1, backgroundImage: 'linear-gradient(0deg, rgb(255, 200, 82) 0%, rgb(254, 239, 144) 15%, rgb(254, 213, 124) 30%, rgb(255, 255, 255) 60%)', backgroundSize: '100% 100%', backgroundRepeat: 'unset', filter: 'drop-shadow(rgb(255, 162, 0) 0px 0px 4px)', WebkitBackgroundClip: 'text', color: 'transparent' }}>سباليس (szbalesz)</span>
                           <span className="ml-1.5 text-xs text-text-muted font-normal">Twitch</span>
                         </div>
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9146FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
