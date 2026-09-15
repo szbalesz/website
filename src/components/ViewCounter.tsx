@@ -1,31 +1,46 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-export function ViewCounter() {
-  const [views, setViews] = useState<number | null>(null);
-  const hasFetched = useRef(false);
+let globalViews: number | null = null;
+let fetchPromise: Promise<any> | null = null;
+
+export function useViews() {
+  const [views, setViews] = useState<number | null>(globalViews);
 
   useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
+    if (globalViews !== null) return;
 
-    fetch('/api/views')
-      .then(res => res.json())
+    if (!fetchPromise) {
+      fetchPromise = fetch('/api/views').then(res => res.json());
+    }
+
+    fetchPromise
       .then(data => {
-        if (data.views !== null) setViews(data.views);
+        if (data.views !== null) {
+          globalViews = data.views;
+          setViews(data.views);
+        }
       })
       .catch(() => {});
   }, []);
 
+  return views;
+}
+
+export function ViewCounter() {
+  const views = useViews();
+
   return (
     <Tooltip>
       <TooltipTrigger render={<span className="inline-flex cursor-default" />}>
-        <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#a855f7] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
+        <div className="h-[22px] w-[22px] text-[#a855f7] hover:scale-110 transition-transform">
+          <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </div>
       </TooltipTrigger>
       <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
         <div className="flex flex-col items-center gap-0.5 text-center">
@@ -36,5 +51,26 @@ export function ViewCounter() {
         </div>
       </TooltipContent>
     </Tooltip>
+  );
+}
+
+export function MobileViewRow({ className }: { className?: string }) {
+  const views = useViews();
+
+  return (
+    <div className={`flex items-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5 ${className || ''}`}>
+      <div className="h-5 w-5 text-[#a855f7] flex-shrink-0">
+        <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+      </div>
+      <div className="flex flex-col items-start min-w-0">
+        <span className="text-sm font-bold text-[#a855f7] truncate">Látogatások</span>
+        <span className="text-xs text-text-muted truncate">
+          {views !== null ? `${views.toLocaleString('hu-HU')}` : '...'}
+        </span>
+      </div>
+    </div>
   );
 }

@@ -3,7 +3,9 @@ import { ViewCounter } from "@/components/ViewCounter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { BadgeTooltip } from "@/components/BadgeTooltip";
 import { Button } from "@/components/ui/button";
+import { MobileViewRow } from "@/components/ViewCounter";
 
 export default function Home() {
   return (
@@ -27,30 +29,20 @@ export default function Home() {
               {/* CARD BODY */}
               <div className="relative px-6 pb-6 pt-16 rounded-b-xl border border-border">
 
-                {/* BADGES */}
-                <div className="absolute right-6 top-4 flex items-center gap-1">
-                  <Tooltip>
-                    <TooltipTrigger render={<button type="button" className="inline-flex cursor-default outline-none" />}>
-                      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#f59e0b] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
-                      <div className="flex flex-col items-center gap-0.5 text-center">
-                        <span className="whitespace-nowrap text-xs font-bold text-[#f59e0b]">Születésnap</span>
-                        <span className="block w-max max-w-[250px] text-[11px] leading-tight text-text-muted">2005. 08. 20.</span>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
+                {/* BADGES (DESKTOP) */}
+                <div className="absolute right-6 top-4 hidden sm:flex items-center gap-1">
+                  <BadgeTooltip
+                    title="Születésnap"
+                    subtitle="2005. 08. 20."
+                    color="#f59e0b"
+                    icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>}
+                  />
 
-                  <Tooltip>
-                    <TooltipTrigger render={<button type="button" className="inline-flex cursor-default outline-none" />}>
-                      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#3b82f6] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
-                    </TooltipTrigger>
-                    <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
-                      <div className="flex flex-col items-center gap-0.5 text-center">
-                        <span className="whitespace-nowrap text-xs font-bold text-[#3b82f6]">Egyetemi hallgató</span>
-                      </div>
-                    </TooltipContent>
-                  </Tooltip>
+                  <BadgeTooltip
+                    title="Egyetemi hallgató"
+                    color="#3b82f6"
+                    icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>}
+                  />
                   <ViewCounter />
                 </div>
 
@@ -62,15 +54,24 @@ export default function Home() {
                       <AvatarFallback>SZ</AvatarFallback>
                     </Avatar>
                     <img src="https://cdn.discordapp.com/avatar-decoration-presets/a_1a9bd997a5cfdab034f6d512ed494596.png?size=160&passthrough=true" alt="" className="pointer-events-none absolute" style={{ width: '115px', height: '115px', maxWidth: 'none', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)', WebkitMaskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)' }} />
-                    <div className="group absolute" style={{ left: '60.599999999999994px', top: '60.599999999999994px', width: '42px', height: '42px' }}>
-                      <svg width="42" height="42" viewBox="0 0 42 42" style={{ display: 'block' }}>
-                        <circle fill="var(--color-bg-card)" cx="21" cy="21" r="21"></circle>
-                        <circle fill="black" cx="21" cy="21" r="16.905" opacity="0.45"></circle>
-                        <foreignObject x="4.094999999999999" y="4.094999999999999" width="33.81" height="33.81">
-                          <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" className="text-[#f23f43] w-full h-full block transition-colors duration-200 ease-in-out" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M17.03 9.78a.75.75 0 0 0-1.06-1.06l-5.47 5.47-2.47-2.47a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l6-6Z"></path><path d="m14.136 1.2 1.375 1.01c.274.201.593.333.929.384l1.687.259a3.61 3.61 0 0 1 3.02 3.021l.259 1.686c.051.336.183.655.384.929l1.01 1.375a3.61 3.61 0 0 1 0 4.272l-1.01 1.375a2.106 2.106 0 0 0-.384.929l-.259 1.687a3.61 3.61 0 0 1-3.021 3.02l-1.686.259a2.106 2.106 0 0 0-.929.384l-1.375 1.01a3.61 3.61 0 0 1-4.272 0l-1.375-1.01a2.106 2.106 0 0 0-.929-.384l-1.687-.259a3.61 3.61 0 0 1-3.02-3.021l-.259-1.686a2.117 2.117 0 0 0-.384-.929L1.2 14.136a3.61 3.61 0 0 1 0-4.272l1.01-1.375c.201-.274.333-.593.384-.929l.259-1.687a3.61 3.61 0 0 1 3.021-3.02l1.686-.259c.336-.051.655-.183.929-.384L9.864 1.2a3.61 3.61 0 0 1 4.272 0Zm-3.384 1.209-1.375 1.01a3.614 3.614 0 0 1-1.59.658l-1.686.258a2.111 2.111 0 0 0-1.766 1.766l-.258 1.686a3.61 3.61 0 0 1-.658 1.589l-1.01 1.376a2.11 2.11 0 0 0 0 2.496l1.01 1.375c.344.469.57 1.015.658 1.59l.258 1.686c.14.911.855 1.626 1.766 1.766l1.686.258a3.61 3.61 0 0 1 1.589.658l1.376 1.01a2.11 2.11 0 0 0 2.496 0l1.375-1.01a3.613 3.613 0 0 1 1.59-.657l1.686-.26a2.11 2.11 0 0 0 1.766-1.765l.258-1.686a3.61 3.61 0 0 1 .658-1.589l1.01-1.376a2.11 2.11 0 0 0 0-2.496l-1.01-1.375a3.613 3.613 0 0 1-.657-1.59l-.26-1.686a2.11 2.11 0 0 0-1.765-1.766l-1.686-.258a3.61 3.61 0 0 1-1.589-.658l-1.376-1.01a2.11 2.11 0 0 0-2.496 0Z"></path></svg>
-                        </foreignObject>
-                      </svg>
-                    </div>
+                    <Tooltip>
+                      <TooltipTrigger render={<span className="absolute outline-none" style={{ left: '60.599999999999994px', top: '60.599999999999994px', width: '42px', height: '42px', zIndex: 10 }} />}>
+                        <div className="group w-full h-full">
+                          <svg width="42" height="42" viewBox="0 0 42 42" style={{ display: 'block' }}>
+                            <circle fill="var(--color-bg-card)" cx="21" cy="21" r="21"></circle>
+                            <circle fill="black" cx="21" cy="21" r="16.905" opacity="0.45"></circle>
+                            <foreignObject x="4.094999999999999" y="4.094999999999999" width="33.81" height="33.81">
+                              <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" className="text-[#f23f43] w-full h-full block transition-colors duration-200 ease-in-out" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M17.03 9.78a.75.75 0 0 0-1.06-1.06l-5.47 5.47-2.47-2.47a.75.75 0 0 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l6-6Z"></path><path d="m14.136 1.2 1.375 1.01c.274.201.593.333.929.384l1.687.259a3.61 3.61 0 0 1 3.02 3.021l.259 1.686c.051.336.183.655.384.929l1.01 1.375a3.61 3.61 0 0 1 0 4.272l-1.01 1.375a2.106 2.106 0 0 0-.384.929l-.259 1.687a3.61 3.61 0 0 1-3.021 3.02l-1.686.259a2.106 2.106 0 0 0-.929.384l-1.375 1.01a3.61 3.61 0 0 1-4.272 0l-1.375-1.01a2.106 2.106 0 0 0-.929-.384l-1.687-.259a3.61 3.61 0 0 1-3.02-3.021l-.259-1.686a2.117 2.117 0 0 0-.384-.929L1.2 14.136a3.61 3.61 0 0 1 0-4.272l1.01-1.375c.201-.274.333-.593.384-.929l.259-1.687a3.61 3.61 0 0 1 3.021-3.02l1.686-.259c.336-.051.655-.183.929-.384L9.864 1.2a3.61 3.61 0 0 1 4.272 0Zm-3.384 1.209-1.375 1.01a3.614 3.614 0 0 1-1.59.658l-1.686.258a2.111 2.111 0 0 0-1.766 1.766l-.258 1.686a3.61 3.61 0 0 1-.658 1.589l-1.01 1.376a2.11 2.11 0 0 0 0 2.496l1.01 1.375c.344.469.57 1.015.658 1.59l.258 1.686c.14.911.855 1.626 1.766 1.766l1.686.258a3.61 3.61 0 0 1 1.589.658l1.376 1.01a2.11 2.11 0 0 0 2.496 0l1.375-1.01a3.613 3.613 0 0 1 1.59-.657l1.686-.26a2.11 2.11 0 0 0 1.766-1.765l.258-1.686a3.61 3.61 0 0 1 .658-1.589l1.01-1.376a2.11 2.11 0 0 0 0-2.496l-1.01-1.375a3.613 3.613 0 0 1-.657-1.59l-.26-1.686a2.11 2.11 0 0 0-1.765-1.766l-1.686-.258a3.61 3.61 0 0 1-1.589-.658l-1.376-1.01a2.11 2.11 0 0 0-2.496 0Z"></path></svg>
+                            </foreignObject>
+                          </svg>
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
+                        <div className="flex flex-col items-center gap-0.5 text-center">
+                          <span className="whitespace-nowrap text-xs font-bold text-[#f23f43]">Elfoglalt</span>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
                   </div>
                 </div>
 
@@ -81,7 +82,31 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="mb-4 space-y-3"></div>
+                {/* MOBILE BADGES (LIST) */}
+                <div className="flex flex-col gap-2 mb-6 sm:hidden">
+                  <div className="flex items-center justify-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5">
+                    <div className="h-5 w-5 text-[#3b82f6] flex-shrink-0">
+                      <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
+                    </div>
+                    <div className="flex flex-col items-center min-w-0">
+                      <span className="text-sm font-bold text-[#3b82f6] truncate">Egyetemi hallgató</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 w-full">
+                    <div className="flex items-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5">
+                      <div className="h-5 w-5 text-[#f59e0b] flex-shrink-0">
+                        <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>
+                      </div>
+                      <div className="flex flex-col items-start min-w-0">
+                        <span className="text-sm font-bold text-[#f59e0b] truncate">Születésnap</span>
+                        <span className="text-xs text-text-muted truncate">2005. 08. 20.</span>
+                      </div>
+                    </div>
+                    
+                    <MobileViewRow />
+                  </div>
+                </div>
 
                 {/* STATS */}
                 {/* STATS */}
@@ -152,7 +177,7 @@ export default function Home() {
                     </a>
 
                     {/* Spotify */}
-                    <a href="https://open.spotify.com/user/SzBalesz" target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity" style={{ animationDelay: '3.6s' }}>
+                    <a href="https://open.spotify.com/user/szbalesz" target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity" style={{ animationDelay: '3.6s' }}>
                       <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" style={{ backgroundColor: '#1DB95415', borderColor: '#1DB95430' }}>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="#1DB954" className="flex-shrink-0"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"></path></svg>
                         <div className="min-w-0 text-left">
