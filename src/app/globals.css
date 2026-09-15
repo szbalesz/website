@@ -139,26 +139,43 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
   }
 }
+
 @keyframes slideUpFade {
-  from { opacity: 0; transform: translateY(20px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
+
 .animate-card {
   opacity: 0;
   animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 .animate-fade {
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards;
@@ -170,18 +187,21 @@
     opacity: 0;
     margin-top: 0;
   }
+
   100% {
     grid-template-rows: 1fr;
     opacity: 1;
     margin-top: 1rem;
   }
 }
+
 .animate-expand-wrapper {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  animation: expandGrid 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: expandGrid 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
 .animate-expand-inner {
   overflow: hidden;
   min-height: 0;
