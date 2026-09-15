@@ -30,7 +30,7 @@ export default function Home() {
                 {/* BADGES */}
                 <div className="absolute right-6 top-4 flex items-center gap-1">
                   <Tooltip>
-                    <TooltipTrigger render={<span className="inline-flex cursor-default outline-none" tabIndex={0} onClick={(e) => e.currentTarget.focus()} />}>
+                    <TooltipTrigger render={<button type="button" className="inline-flex cursor-default outline-none" />}>
                       <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#f59e0b] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
@@ -42,7 +42,7 @@ export default function Home() {
                   </Tooltip>
 
                   <Tooltip>
-                    <TooltipTrigger render={<span className="inline-flex cursor-default outline-none" tabIndex={0} onClick={(e) => e.currentTarget.focus()} />}>
+                    <TooltipTrigger render={<button type="button" className="inline-flex cursor-default outline-none" />}>
                       <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-[22px] w-[22px] text-[#3b82f6] hover:scale-110 transition-transform" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
                     </TooltipTrigger>
                     <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
