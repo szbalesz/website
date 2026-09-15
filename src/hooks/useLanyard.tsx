@@ -10,7 +10,7 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        const res = await fetch("https://api.lanyard.rest/v1/users/305732881144086528", { 
+        const res = await fetch(`https://api.lanyard.rest/v1/users/305732881144086528?_t=${Date.now()}`, { 
           cache: "no-store" 
         });
         const json = await res.json();
