@@ -63,7 +63,7 @@ export function PartyOverlay() {
           }`}
         style={{ animationDelay: '2.8s' }}
       >
-        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-300 ease-out text-sm font-medium">
+        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-500 ease-in-out text-sm font-medium">
           {!isSpotifyPlaying
             ? "Nincs zene tevékenység"
             : isEnabled

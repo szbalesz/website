@@ -47,7 +47,7 @@ export default async function Home() {
           <PartyOverlay />
           <FloatingEmotes />
           <SevenTvLinkButton />
-          <div className="mx-auto w-full max-w-2xl px-4 z-10 relative">
+          <div className="mx-auto w-full max-w-2xl px-4 z-10 my-6 relative">
             <Card className="!bg-black/40 backdrop-blur-md !ring-white/10 rounded-xl shadow-[0_0_30px_5px_rgba(0,0,0,0.5)] animate-card transition-transform duration-300 ease-out p-0" style={{ animationDelay: '2.2s' }}>
               <div className="animate-card-inner w-full">
                 <div className="relative rounded-xl overflow-hidden w-full">
@@ -200,10 +200,18 @@ export default async function Home() {
                     </div>
 
                     <LanyardStatus />
+                    <div className="flex sm:hidden justify-center mt-6">
+                      <div className="flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default">
+                        © {new Date().getFullYear()} SZBALESZ Minden jog fenntartva.
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </Card>
+          </div>
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default">
+            © {new Date().getFullYear()} SZBALESZ Minden jog fenntartva.
           </div>
         </main>
       </SavedEmotesProvider>

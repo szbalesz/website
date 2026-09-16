@@ -292,6 +292,10 @@
   }
 }
 
+.animate-button-orbit-glow {
+  animation: orbit-glow 3s linear infinite;
+}
+
 @keyframes suck-into-blackhole {
   0% {
     transform: translate(calc(var(--start-x) - 50%), calc(var(--start-y) - 50%)) scale(var(--start-scale));
