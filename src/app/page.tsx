@@ -48,7 +48,7 @@ export default async function Home() {
           <FloatingEmotes />
           <SevenTvLinkButton />
           <div className="mx-auto w-full max-w-2xl px-4 z-10 relative">
-            <Card className="rounded-xl shadow-[0_0_20px_2px_#13141666,0_0_60px_10px_#13141633] animate-card transition-transform duration-300 ease-out p-0" style={{ animationDelay: '2.2s' }}>
+            <Card className="!bg-black/40 backdrop-blur-md !ring-white/10 rounded-xl shadow-[0_0_30px_5px_rgba(0,0,0,0.5)] animate-card transition-transform duration-300 ease-out p-0" style={{ animationDelay: '2.2s' }}>
               <div className="animate-card-inner w-full">
                 <div className="relative rounded-xl overflow-hidden w-full">
 
@@ -60,10 +60,12 @@ export default async function Home() {
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
-                  ></div>
+                  >
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-black/60" />
+                  </div>
 
                   {/* CARD BODY */}
-                  <div className="relative px-6 pb-6 pt-16 rounded-b-xl border border-border">
+                  <div className="relative px-6 pb-6 pt-16 rounded-b-xl border-t-0 border-x border-b border-white/5 bg-gradient-to-b from-black/60 to-transparent">
 
                     {/* BADGES (DESKTOP) */}
                     <div className="absolute right-6 top-4 hidden sm:flex items-center gap-1">
