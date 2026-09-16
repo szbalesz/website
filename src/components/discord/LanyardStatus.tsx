@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Music, Gamepad2, Monitor, Tv, Clock } from "lucide-react";
 import { useLanyard } from "@/hooks/useLanyard";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Discord képek feloldása (app-assets vagy külső proxy)
 const getAssetUrl = (appId: string, assetId: string) => {
@@ -20,10 +21,42 @@ const getActivityVerb = (type: number) => {
     case 1: return "Ezt közvetíti";
     case 2: return "Ezt hallgatja";
     case 3: return "Ezt nézi";
-    case 5: return "Ebben versenyez";
-    default: return "Ezt csinálja";
+    case 5: return "Versenyzik";
+    default: return "Tevékenység";
   }
 };
+
+// Tooltip komponens a képekhez (kezeli az állapotot)
+function ActivityImageTooltip({ 
+  image, 
+  text, 
+  isSmall 
+}: { 
+  image: string; 
+  text: string; 
+  isSmall?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <Tooltip open={open} onOpenChange={setOpen}>
+      <TooltipTrigger
+        render={<div className={isSmall ? "absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-card border-[2px] border-card overflow-hidden flex items-center justify-center cursor-default" : "w-full h-full cursor-default"} />}
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen(!open);
+        }}
+        onBlur={() => setOpen(false)}
+      >
+        <img src={image} alt="Activity Asset" className={isSmall ? "w-full h-full object-cover" : "w-full h-full object-cover rounded-xl shadow-md"} />
+      </TooltipTrigger>
+      <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
+        <span className="text-xs font-bold">{text}</span>
+      </TooltipContent>
+    </Tooltip>
+  );
+}
 
 // Idő és folyamatjelző komponens
 const formatTime = (ms: number) => {
@@ -185,7 +218,14 @@ export function LanyardStatus() {
                       <div className="flex gap-3.5">
                         <div className="relative h-[72px] w-[72px] flex-shrink-0">
                           {activity.assets?.large_image ? (
-                            <img src={getAssetUrl(activity.application_id, activity.assets.large_image) || ''} alt="Activity" className="w-full h-full object-cover rounded-xl shadow-md" />
+                            activity.assets.large_text ? (
+                              <ActivityImageTooltip 
+                                image={getAssetUrl(activity.application_id, activity.assets.large_image) || ''} 
+                                text={activity.assets.large_text} 
+                              />
+                            ) : (
+                              <img src={getAssetUrl(activity.application_id, activity.assets.large_image) || ''} alt="Activity" className="w-full h-full object-cover rounded-xl shadow-md" />
+                            )
                           ) : (
                             <div className="w-full h-full flex items-center justify-center bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20 shadow-md">
                                {activity.type === 3 ? <Tv size={28} /> :
@@ -194,9 +234,17 @@ export function LanyardStatus() {
                             </div>
                           )}
                           {activity.assets?.small_image && (
-                            <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-card border-[2px] border-card overflow-hidden flex items-center justify-center">
-                              <img src={getAssetUrl(activity.application_id, activity.assets.small_image) || ''} alt="Small Asset" className="w-full h-full object-cover" />
-                            </div>
+                            activity.assets.small_text ? (
+                              <ActivityImageTooltip 
+                                image={getAssetUrl(activity.application_id, activity.assets.small_image) || ''} 
+                                text={activity.assets.small_text} 
+                                isSmall 
+                              />
+                            ) : (
+                              <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-card border-[2px] border-card overflow-hidden flex items-center justify-center">
+                                <img src={getAssetUrl(activity.application_id, activity.assets.small_image) || ''} alt="Small Asset" className="w-full h-full object-cover" />
+                              </div>
+                            )
                           )}
                         </div>
                         
@@ -208,21 +256,7 @@ export function LanyardStatus() {
                             <span className="text-sm text-text-muted line-clamp-2 leading-tight" title={activity.state}>{activity.state}</span>
                           )}
                           
-                          {/* Opcionális alsó sor (large_text vagy small_text) */}
-                          {(activity.assets?.large_text || activity.assets?.small_text) && (
-                            <div className="flex items-center gap-2 mt-1 opacity-75">
-                               {activity.assets?.small_text && (
-                                 <span className="text-xs font-medium text-text-muted flex items-center gap-1 bg-black/10 dark:bg-white/10 px-1.5 py-0.5 rounded-sm">
-                                   {activity.assets.small_text}
-                                 </span>
-                               )}
-                               {activity.assets?.large_text && (
-                                 <span className="text-xs text-text-muted truncate">
-                                   {activity.assets.large_text}
-                                 </span>
-                               )}
-                            </div>
-                          )}
+
 
                           {/* Idővonal / Eltelt idő */}
                           {activity.timestamps && (
