@@ -55,7 +55,6 @@ export default async function Home() {
 
                   {/* BADGES (DESKTOP) */}
                   <div className="absolute right-6 top-4 hidden sm:flex items-center gap-1">
-                    <SevenTvBadge />
 
                     <BadgeTooltip
                       title="Születésnap"
@@ -63,12 +62,7 @@ export default async function Home() {
                       color="#f59e0b"
                       icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>}
                     />
-
-                    <BadgeTooltip
-                      title="Egyetemi hallgató"
-                      color="#3b82f6"
-                      icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>}
-                    />
+                    <SevenTvBadge />
                     <ViewCounter />
                   </div>
 
@@ -80,7 +74,7 @@ export default async function Home() {
                   {/* USER INFO */}
                   <div className="mb-4 text-center mt-2">
                     <div className="flex items-center justify-center gap-2 ">
-                      <span className="text-2xl font-bold text-text-primary animate-text-glow-shine font-designer tracking-wider transition-transform duration-300 ease-out hover:scale-102 cursor-default">SZBALESZ</span>
+                      <span className="text-2xl font-bold text-text-primary animate-text-glow-shine font-designer tracking-wider transition-transform duration-300 ease-out hover:scale-102 cursor-default">{mainTitle}</span>
                     </div>
 
                     <DiscordCustomStatus />
@@ -88,14 +82,6 @@ export default async function Home() {
 
                   {/* MOBILE BADGES (LIST) */}
                   <div className="flex flex-col gap-2 mb-6 sm:hidden">
-                    <div className="flex items-center justify-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5">
-                      <div className="h-5 w-5 text-[#3b82f6] flex-shrink-0">
-                        <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><path d="M22 10v6M2 10l10-5 10 5-10 5z" /><path d="M6 12v5c3 3 9 3 12 0v-5" /></svg>
-                      </div>
-                      <div className="flex flex-col items-center min-w-0">
-                        <span className="text-sm font-bold text-[#3b82f6] truncate">Egyetemi hallgató</span>
-                      </div>
-                    </div>
 
                     <div className="grid grid-cols-2 gap-2 w-full">
                       <div className="flex items-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5">
@@ -107,9 +93,7 @@ export default async function Home() {
                           <span className="text-xs text-text-muted truncate">2005. 08. 20.</span>
                         </div>
                       </div>
-
-                      <SevenTvBadge isMobile />
-
+                      {/* <SevenTvBadge isMobile /> */}
                       <MobileViewRow />
                     </div>
                   </div>
