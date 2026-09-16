@@ -37,9 +37,9 @@ npm run dev
 Környezeti változók (.env.local):
 ```env
 REDIS_URL="redis://<upstash-redis-url>"
+NEXT_PUBLIC_SEVENTV_USER_ID="<7tv_user_id>"
 NEXT_PUBLIC_DISCORD_USER_ID="<discord_user_id>"
-NEXT_PUBLIC_DISCORD_BANNER_URL="https://..."
-NEXT_PUBLIC_DISCORD_BADGE_URL="https://..."
+NEXT_PUBLIC_DISCORD_BANNER_URL="https://cdn.discordapp.com/banners/..."
 ```
 
 ## Deployment
