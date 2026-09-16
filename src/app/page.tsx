@@ -10,8 +10,27 @@ import { LanyardProvider } from "@/hooks/useLanyard";
 import { LanyardStatus } from "@/components/LanyardStatus";
 import { DiscordAvatar } from "@/components/DiscordAvatar";
 import { DiscordCustomStatus } from "@/components/DiscordCustomStatus";
+import { DiscordButton } from "@/components/DiscordButton";
+import { SevenTvName } from "@/components/SevenTvName";
+import { SevenTvBadge } from "@/components/SevenTvBadge";
 
-export default function Home() {
+export default async function Home() {
+  let mainTitle = "SZBALESZ";
+  try {
+    if (process.env.NEXT_PUBLIC_DISCORD_USER_ID) {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`, {
+        next: { revalidate: 3600 }
+      });
+      const data = await res.json();
+      const discordUser = data?.data?.discord_user;
+      if (discordUser) {
+        mainTitle = (discordUser.global_name || discordUser.username).toUpperCase();
+      }
+    }
+  } catch (e) {
+    console.error("Failed to fetch Discord username for page", e);
+  }
+
   return (
     <LanyardProvider>
       <main className="flex min-h-[100dvh] flex-col items-center justify-center text-text-primary antialiased relative">
@@ -25,7 +44,7 @@ export default function Home() {
                 <div
                   className="relative h-25 overflow-hidden rounded-t-xl md:h-40"
                   style={{
-                    backgroundImage: "url('https://cdn.discordapp.com/banners/305732881144086528/a_df5e94147df1f27e6aaf29a72e1f710d.gif?size=4096')",
+                    backgroundImage: `url('https://cdn.discordapp.com/banners/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}/a_df5e94147df1f27e6aaf29a72e1f710d.gif?size=4096')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                   }}
@@ -36,6 +55,8 @@ export default function Home() {
 
                   {/* BADGES (DESKTOP) */}
                   <div className="absolute right-6 top-4 hidden sm:flex items-center gap-1">
+                    <SevenTvBadge />
+
                     <BadgeTooltip
                       title="Születésnap"
                       subtitle="2005. 08. 20."
@@ -87,6 +108,8 @@ export default function Home() {
                         </div>
                       </div>
 
+                      <SevenTvBadge isMobile />
+
                       <MobileViewRow />
                     </div>
                   </div>
@@ -100,23 +123,14 @@ export default function Home() {
 
 
                       {/* Discord */}
-                      <a href="https://discordapp.com/users/305732881144086528" target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity" style={{ animationDelay: '3.1s' }}>
-                        <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" style={{ backgroundColor: '#5865F215', borderColor: '#5865F230' }}>
-                          <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="#5865F2" className="flex-shrink-0"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c0,0,.04-.06.09-.09C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.31,60,73.31,53s5-12.74,11.43-12.74S96.2,46,96.12,53,91.08,65.69,84.69,65.69Z"></path></svg>
-                          <div className="min-w-0 text-left">
-                            <span className="font-medium text-text-primary animate-discord-name">SzBalesz</span>
-                            <span className="ml-1.5 text-xs text-text-muted font-normal">Discord</span>
-                          </div>
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5865F2" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        </div>
-                      </a>
+                      <DiscordButton />
 
                       {/* Twitch */}
                       <a href="https://twitch.tv/szbalesz" target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity" style={{ animationDelay: '3.2s' }}>
                         <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" style={{ backgroundColor: '#9146FF15', borderColor: '#9146FF30' }}>
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="#9146FF" className="flex-shrink-0"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></path></svg>
-                          <div className="min-w-0 text-left" dir="ltr">
-                            <span className="font-medium" style={{ opacity: 1, backgroundImage: 'linear-gradient(0deg, rgb(255, 200, 82) 0%, rgb(254, 239, 144) 15%, rgb(254, 213, 124) 30%, rgb(255, 255, 255) 60%)', backgroundSize: '100% 100%', backgroundRepeat: 'unset', filter: 'drop-shadow(rgb(255, 162, 0) 0px 0px 4px)', WebkitBackgroundClip: 'text', color: 'transparent' }}>سباليس (szbalesz)</span>
+                          <div className="min-w-0 text-left">
+                            <SevenTvName name="سباليس (szbalesz)" />
                             <span className="ml-1.5 text-xs text-text-muted font-normal">Twitch</span>
                           </div>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9146FF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -152,7 +166,7 @@ export default function Home() {
                         <div className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" style={{ backgroundColor: '#53fc1815', borderColor: '#53fc1830' }}>
                           <img src="/logos/kick.webp" alt="Kick" width="16" height="16" className="flex-shrink-0" style={{ objectFit: 'contain' }} />
                           <div className="min-w-0 text-left">
-                            <span className="font-medium" style={{ opacity: 1, backgroundImage: 'linear-gradient(0deg, rgb(255, 200, 82) 0%, rgb(254, 239, 144) 15%, rgb(254, 213, 124) 30%, rgb(255, 255, 255) 60%)', backgroundSize: '100% 100%', backgroundRepeat: 'unset', filter: 'drop-shadow(rgb(255, 162, 0) 0px 0px 4px)', WebkitBackgroundClip: 'text', color: 'transparent' }}>SZBALESZ</span>
+                            <SevenTvName name="SZBALESZ" />
                             <span className="ml-1.5 text-xs text-text-muted font-normal">Kick</span>
                           </div>
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#53fc18" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="ml-auto flex-shrink-0"><polyline points="20 6 9 17 4 12"></polyline></svg>

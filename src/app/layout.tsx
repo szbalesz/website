@@ -15,10 +15,28 @@ const designerFont = localFont({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "SZBALESZ",
-  description: "SZBALESZ – közösségi média és elérhetőségek.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  let titleText = "SZBALESZ";
+  try {
+    if (process.env.NEXT_PUBLIC_DISCORD_USER_ID) {
+      const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`, {
+        next: { revalidate: 3600 }
+      });
+      const data = await res.json();
+      const discordUser = data?.data?.discord_user;
+      if (discordUser) {
+        titleText = (discordUser.global_name || discordUser.username).toUpperCase();
+      }
+    }
+  } catch (e) {
+    console.error("Failed to fetch Discord username for title", e);
+  }
+
+  return {
+    title: titleText,
+    description: `${titleText} – közösségi média és elérhetőségek.`,
+  };
+}
 
 export default function RootLayout({
   children,
