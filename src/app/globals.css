@@ -269,6 +269,36 @@
   }
 }
 
+@keyframes suck-into-blackhole {
+  0% {
+    transform: translate(calc(var(--start-x) - 50%), calc(var(--start-y) - 50%)) scale(var(--start-scale));
+    opacity: var(--start-opacity, 0.8);
+  }
+  70% {
+    opacity: var(--start-opacity, 0.8);
+  }
+  100% {
+    transform: translate(calc(50vw - 50%), calc(50vh - 50%)) scale(0);
+    opacity: 0;
+  }
+}
+
+@keyframes spin-into-blackhole {
+  0% {
+    transform: rotate(var(--start-rotation, 0deg));
+  }
+  100% {
+    transform: rotate(var(--end-rotation));
+  }
+}
+
+.animate-suck-into-blackhole {
+  animation-name: suck-into-blackhole;
+  will-change: transform, opacity;
+  top: 0;
+  left: 0;
+}
+
 .animate-text-glow-shine {
   background: linear-gradient(110deg,
       #f2f3f5 20%,
