@@ -73,7 +73,7 @@ export function FloatingEmotes() {
     let isMounted = true;
 
     // Filter music emotes
-    const musicKeywords = ["dance", "pls", "vibe", "cattime", "CatGang", "pedrotime", "party", "disco", "fiesta", "jam", "dj"];
+    const musicKeywords = ["dance", "pls", "vibe", "time", "CatGang", "pedro", "party", "disco", "fiesta", "jam", "dj", "amogus", "bass"];
     const musicEmotes = emotes.filter(e =>
       musicKeywords.some(keyword => e.name.toLowerCase().includes(keyword))
     );
