@@ -25,13 +25,13 @@ export function SevenTvBadge({ isMobile }: { isMobile?: boolean }) {
             }
           }
         `;
-        
+
         const res = await fetch('https://7tv.io/v3/gql', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query })
         });
-        
+
         const json = await res.json();
         const b = json?.data?.user?.style?.badge;
         if (b?.host?.url) {
@@ -47,7 +47,7 @@ export function SevenTvBadge({ isMobile }: { isMobile?: boolean }) {
   if (!badge) return null;
 
   const badgeUrl = `https:${badge.host.url}/2x.webp`;
-  
+
   if (isMobile) {
     return (
       <div className="flex items-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5">
@@ -56,26 +56,26 @@ export function SevenTvBadge({ isMobile }: { isMobile?: boolean }) {
         </div>
         <div className="flex flex-col items-start min-w-0">
           <span className="text-sm font-bold text-white truncate">{badge.name}</span>
-          <span className="text-xs text-text-muted truncate">7TV</span>
+          <span className="text-xs text-text-muted truncate">7TV BADGE</span>
         </div>
       </div>
     );
   }
 
   const icon = (
-    <img 
-      src={badgeUrl} 
-      alt={badge.name} 
-      width={18} 
-      height={18} 
+    <img
+      src={badgeUrl}
+      alt={badge.name}
+      width={18}
+      height={18}
       style={{ objectFit: 'contain' }}
     />
   );
 
   return (
     <BadgeTooltip
-      title={(badge.tooltip || badge.name).toUpperCase()}
-      subtitle="7TV"
+      title={(badge.name).toUpperCase()}
+      subtitle="7TV BADGE"
       color="#ffffff"
       icon={icon}
     />

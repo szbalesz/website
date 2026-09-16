@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Ghost } from "lucide-react";
+import { useSavedEmotes } from "@/components/SavedEmotesProvider";
 
 interface EmoteData {
   id: string;
@@ -29,6 +30,7 @@ export function FloatingEmotes() {
   const timeouts = useRef<Set<NodeJS.Timeout>>(new Set());
   const lanyard = useLanyard();
   const currentFlyingEmotes = useRef<FlyingEmote[]>([]);
+  const { saveEmote } = useSavedEmotes();
 
   const [isEnabled, setIsEnabled] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -99,7 +101,8 @@ export function FloatingEmotes() {
 
       if (!selectedEmote) {
         selectedEmote = emotes[Math.floor(Math.random() * emotes.length)];
-        const forceCount = currentFlyingEmotes.current.filter(e => e.emoteId === selectedEmote.id).length;
+        const candidate = selectedEmote;
+        const forceCount = currentFlyingEmotes.current.filter(e => e.emoteId === candidate.id).length;
         if (forceCount >= 2) {
           if (isMusicParty) {
             const nextSpawnTime = 1050 + Math.random() * 2100;
@@ -217,7 +220,13 @@ export function FloatingEmotes() {
           return (
             <div
               key={emote.key}
-              className="absolute animate-suck-into-blackhole"
+              className="absolute animate-suck-into-blackhole pointer-events-auto cursor-pointer select-none"
+              onDragStart={(e) => e.preventDefault()}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                saveEmote();
+                setFlyingEmotes((prev) => prev.filter((e) => e.key !== emote.key));
+              }}
               style={{
                 '--start-x': emote.startX,
                 '--start-y': emote.startY,
@@ -229,6 +238,7 @@ export function FloatingEmotes() {
               } as React.CSSProperties}
             >
               <div
+                className="select-none"
                 style={{
                   '--start-rotation': `${emote.startRotation}deg`,
                   '--end-rotation': `${emote.endRotation}deg`,
@@ -242,7 +252,8 @@ export function FloatingEmotes() {
                 <img
                   src={`https://cdn.7tv.app/emote/${emote.emoteId}/2x.webp`}
                   alt={emote.name}
-                  className="w-12 h-12 object-contain"
+                  className="w-12 h-12 object-contain pointer-events-none select-none"
+                  draggable={false}
                 />
               </div>
             </div>
@@ -260,7 +271,7 @@ export function FloatingEmotes() {
         className="group fixed bottom-6 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden"
       >
         <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-300 ease-out text-sm font-medium">
-          {isEnabled ? "Emote-ok kikapcsolása" : "Emote-ok bekapcsolása"}
+          {isEnabled ? "Emoteok kikapcsolása" : "Emoteok bekapcsolása"}
         </span>
         <Ghost className={`w-5 h-5 flex-shrink-0 transition-opacity ${isEnabled ? "opacity-100" : "opacity-30"}`} />
       </button>
