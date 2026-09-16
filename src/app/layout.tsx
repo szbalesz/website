@@ -16,7 +16,7 @@ const designerFont = localFont({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  let titleText = "SZBALESZ";
+  let titleText = "SZBALESZ | SOCIALS";
   try {
     if (process.env.NEXT_PUBLIC_DISCORD_USER_ID) {
       const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`, {
@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
       const data = await res.json();
       const discordUser = data?.data?.discord_user;
       if (discordUser) {
-        titleText = (discordUser.global_name || discordUser.username).toUpperCase();
+        titleText = `${(discordUser.global_name || discordUser.username).toUpperCase()} | SOCIALS`;
       }
     }
   } catch (e) {

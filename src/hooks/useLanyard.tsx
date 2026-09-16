@@ -27,6 +27,19 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (data?.discord_user?.display_name_styles?.colors) {
+      const colors = data.discord_user.display_name_styles.colors;
+      if (colors.length > 0) {
+        document.documentElement.style.setProperty('--discord-name-color-1', `#${colors[0].toString(16).padStart(6, '0')}`);
+        document.documentElement.style.setProperty('--discord-name-color-2', `#${colors[1 % colors.length].toString(16).padStart(6, '0')}`);
+        document.documentElement.style.setProperty('--discord-name-color-3', `#${colors[2 % colors.length].toString(16).padStart(6, '0')}`);
+        document.documentElement.style.setProperty('--discord-name-color-4', `#${colors[3 % colors.length].toString(16).padStart(6, '0')}`);
+        document.documentElement.style.setProperty('--discord-name-color-5', `#${colors[4 % colors.length].toString(16).padStart(6, '0')}`);
+      }
+    }
+  }, [data]);
+
   return (
     <LanyardContext.Provider value={data}>
       {children}
