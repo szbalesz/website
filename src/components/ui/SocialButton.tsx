@@ -22,7 +22,7 @@ export function SocialButton({ href, animationDelay, color, icon, username, plat
         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" 
         style={{ backgroundColor: `${color}15`, borderColor: `${color}30` }}
       >
-        <div className="flex-shrink-0 flex items-center justify-center w-[18px] h-[18px]">
+        <div className="flex-shrink-0 flex items-center justify-center w-[18px] h-[18px] [&>svg]:w-full [&>svg]:h-full">
           {icon}
         </div>
         <div className="min-w-0 text-left">
