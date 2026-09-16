@@ -201,7 +201,7 @@ export default async function Home() {
 
                     <LanyardStatus />
                     <div className="flex sm:hidden justify-center mt-6">
-                      <div className="flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default">
+                      <div className="flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default animate-button-in" style={{ animationDelay: '4.0s' }}>
                         © {new Date().getFullYear()} SZBALESZ Minden jog fenntartva.
                       </div>
                     </div>
@@ -210,7 +210,7 @@ export default async function Home() {
               </div>
             </Card>
           </div>
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 hidden sm:flex items-center justify-center px-2.5 py-1 rounded-full bg-black/40 border border-white/10 text-white/50 backdrop-blur-sm shadow-lg text-[9px] font-medium cursor-default animate-button-in" style={{ animationDelay: '4.0s' }}>
             © {new Date().getFullYear()} SZBALESZ Minden jog fenntartva.
           </div>
         </main>
