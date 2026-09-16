@@ -30,6 +30,29 @@ export function StarfieldOverlay() {
   const starsMedium = useMemo(() => generateStars(400), []);
   const starsLarge = useMemo(() => generateStars(150), []);
 
+  const suckedStars = useMemo(() => {
+    const stars = [];
+    for (let i = 0; i < 40; i++) {
+      const startX = `${Math.floor(Math.random() * 140 - 20)}vw`;
+      const startY = `${Math.floor(Math.random() * 140 - 20)}vh`;
+      const duration = (Math.random() * 6 + 4).toFixed(2);
+      const delay = (Math.random() * 15).toFixed(2);
+      const scale = (Math.random() * 1.5 + 0.5).toFixed(2);
+      const opacity = (Math.random() * 0.6 + 0.2).toFixed(2);
+      
+      stars.push({
+        id: i,
+        startX,
+        startY,
+        duration,
+        delay,
+        scale,
+        opacity,
+      });
+    }
+    return stars;
+  }, []);
+
   return (
     <>
       <div 
@@ -91,6 +114,24 @@ export function StarfieldOverlay() {
           <div className="star-layer stars-medium" />
           <div className="star-layer stars-large" />
         </div>
+
+        {/* Sucked Stars */}
+        {isEnabled && suckedStars.map(star => (
+          <div
+            key={star.id}
+            className="fixed w-[2px] h-[2px] bg-white rounded-full animate-suck-into-blackhole"
+            style={{
+              '--start-x': star.startX,
+              '--start-y': star.startY,
+              '--start-scale': star.scale,
+              '--start-opacity': star.opacity,
+              animationDuration: `${star.duration}s`,
+              animationDelay: `${star.delay}s`,
+              animationIterationCount: 'infinite',
+              animationTimingFunction: 'cubic-bezier(0.5, 0, 0.2, 1)',
+            } as React.CSSProperties}
+          />
+        ))}
       </div>
 
       <button
