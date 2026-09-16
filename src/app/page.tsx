@@ -15,6 +15,9 @@ import { SevenTvName } from "@/components/seventv/SevenTvName";
 import { SevenTvBadge } from "@/components/seventv/SevenTvBadge";
 import { SocialButton } from "@/components/ui/SocialButton";
 import { FloatingEmotes } from "@/components/ui/FloatingEmotes";
+import { PartyOverlay } from "@/components/ui/PartyOverlay";
+import { StarfieldOverlay } from "@/components/ui/StarfieldOverlay";
+import { SevenTvLinkButton } from "@/components/ui/SevenTvLinkButton";
 import { SavedEmotesProvider } from "@/components/SavedEmotesProvider";
 import { SavedEmotesBadge } from "@/components/ui/SavedEmotesBadge";
 
@@ -40,7 +43,10 @@ export default async function Home() {
       <SavedEmotesProvider>
         <main className="flex min-h-[100dvh] flex-col items-center justify-center text-text-primary antialiased relative">
           <BackgroundVideo />
+          <StarfieldOverlay />
+          <PartyOverlay />
           <FloatingEmotes />
+          <SevenTvLinkButton />
           <div className="mx-auto w-full max-w-2xl px-4 z-10 relative">
             <Card className="rounded-xl shadow-[0_0_20px_2px_#13141666,0_0_60px_10px_#13141633] animate-card transition-transform duration-300 ease-out p-0" style={{ animationDelay: '2.2s' }}>
               <div className="animate-card-inner w-full">

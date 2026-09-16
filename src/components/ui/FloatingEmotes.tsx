@@ -27,7 +27,8 @@ export function FloatingEmotes() {
   const [emotes, setEmotes] = useState<EmoteData[]>([]);
   const [flyingEmotes, setFlyingEmotes] = useState<FlyingEmote[]>([]);
   const nextKey = useRef(0);
-  const timeouts = useRef<Set<NodeJS.Timeout>>(new Set());
+  const spawnTimeouts = useRef<Set<NodeJS.Timeout>>(new Set());
+  const removeTimeouts = useRef<Set<NodeJS.Timeout>>(new Set());
   const lanyard = useLanyard();
   const currentFlyingEmotes = useRef<FlyingEmote[]>([]);
   const { saveEmote } = useSavedEmotes();
@@ -49,7 +50,12 @@ export function FloatingEmotes() {
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      // Clean up remove timeouts only on full unmount
+      removeTimeouts.current.forEach(clearTimeout);
+      removeTimeouts.current.clear();
+    };
   }, []);
 
   useEffect(() => {
@@ -70,7 +76,7 @@ export function FloatingEmotes() {
   useEffect(() => {
     if (emotes.length === 0 || !isEnabled || isMobile) return;
 
-    let isMounted = true;
+    let isEffectActive = true;
 
     // Filter music emotes
     const musicKeywords = ["dance", "pls", "vibe", "time", "CatGang", "pedro", "party", "disco", "fiesta", "jam", "dj", "amogus", "bass"];
@@ -79,7 +85,7 @@ export function FloatingEmotes() {
     );
 
     const spawnEmote = (isMusicParty: boolean, initialDelay: number = 0) => {
-      if (!isMounted) return;
+      if (!isEffectActive) return;
 
       let selectedEmote: EmoteData | null = null;
       let attempts = 0;
@@ -107,11 +113,11 @@ export function FloatingEmotes() {
           if (isMusicParty) {
             const nextSpawnTime = 1050 + Math.random() * 2100;
             const spawnTimeout = setTimeout(() => spawnEmote(true), nextSpawnTime);
-            timeouts.current.add(spawnTimeout);
+            spawnTimeouts.current.add(spawnTimeout);
           } else {
             const nextSpawnTime = 650 + Math.random() * 1850;
             const spawnTimeout = setTimeout(() => spawnEmote(false), nextSpawnTime);
-            timeouts.current.add(spawnTimeout);
+            spawnTimeouts.current.add(spawnTimeout);
           }
           return;
         }
@@ -166,48 +172,43 @@ export function FloatingEmotes() {
       });
 
       const removeTimeout = setTimeout(() => {
-        if (isMounted) {
-          setFlyingEmotes((prev) => prev.filter((e) => e.key !== newEmote.key));
-        }
-        timeouts.current.delete(removeTimeout);
+        setFlyingEmotes((prev) => prev.filter((e) => e.key !== newEmote.key));
+        removeTimeouts.current.delete(removeTimeout);
       }, (duration + initialDelay + 1) * 1000);
-      timeouts.current.add(removeTimeout);
+      removeTimeouts.current.add(removeTimeout);
 
       if (isMusicParty) {
         const nextSpawnTime = 1050 + Math.random() * 2100;
         const spawnTimeout = setTimeout(() => spawnEmote(true), nextSpawnTime);
-        timeouts.current.add(spawnTimeout);
+        spawnTimeouts.current.add(spawnTimeout);
       } else {
         const nextSpawnTime = 650 + Math.random() * 1850;
         const spawnTimeout = setTimeout(() => spawnEmote(false), nextSpawnTime);
-        timeouts.current.add(spawnTimeout);
+        spawnTimeouts.current.add(spawnTimeout);
       }
     };
 
     // Kezdeti löket a szélekről gyorsan egymás után
     for (let i = 0; i < 6; i++) {
       const burstTimeout = setTimeout(() => spawnEmote(false, 0), i * 150);
-      timeouts.current.add(burstTimeout);
+      spawnTimeouts.current.add(burstTimeout);
     }
     if (isSpotifyPlaying && musicEmotes.length > 0) {
       for (let i = 0; i < 4; i++) {
         const partyBurst = setTimeout(() => spawnEmote(true, 0), i * 150);
-        timeouts.current.add(partyBurst);
+        spawnTimeouts.current.add(partyBurst);
       }
+      const partyTimeout = setTimeout(() => spawnEmote(true), 800);
+      spawnTimeouts.current.add(partyTimeout);
     }
 
     const initialTimeout = setTimeout(() => spawnEmote(false), 800);
-    timeouts.current.add(initialTimeout);
-
-    if (isSpotifyPlaying && musicEmotes.length > 0) {
-      const partyTimeout = setTimeout(() => spawnEmote(true), 800);
-      timeouts.current.add(partyTimeout);
-    }
+    spawnTimeouts.current.add(initialTimeout);
 
     return () => {
-      isMounted = false;
-      timeouts.current.forEach(clearTimeout);
-      timeouts.current.clear();
+      isEffectActive = false;
+      spawnTimeouts.current.forEach(clearTimeout);
+      spawnTimeouts.current.clear();
     };
   }, [emotes, isSpotifyPlaying, isEnabled, isMobile]);
 
@@ -215,7 +216,9 @@ export function FloatingEmotes() {
 
   return (
     <>
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[5]">
+      <div 
+        className={`fixed inset-0 pointer-events-none overflow-hidden z-[5] transition-opacity duration-1000 ${isEnabled ? 'opacity-100' : 'opacity-0'}`}
+      >
         {flyingEmotes.map((emote) => {
           return (
             <div
@@ -264,9 +267,12 @@ export function FloatingEmotes() {
       <button
         onClick={() => {
           const newState = !isEnabled;
+          if (newState) {
+            // When turning back on, clear any leftover hidden emotes to start fresh
+            setFlyingEmotes([]);
+          }
           setIsEnabled(newState);
           localStorage.setItem("floatingEmotesEnabled", String(newState));
-          if (!newState) setFlyingEmotes([]);
         }}
         className="group fixed bottom-6 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden"
       >
