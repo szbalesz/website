@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
-import { Sparkles } from "lucide-react";
+import { useMemo } from "react";
+import { useControls } from "@/components/ControlsProvider";
 
 // Helper function to generate a random box-shadow string representing stars
 const generateStars = (count: number) => {
@@ -17,14 +17,7 @@ const generateStars = (count: number) => {
 };
 
 export function StarfieldOverlay() {
-  const [isEnabled, setIsEnabled] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("starfieldEnabled");
-    if (saved !== null) {
-      setIsEnabled(saved === "true");
-    }
-  }, []);
+  const { starsEnabled: isEnabled, hasHydrated } = useControls();
 
   const starsSmall = useMemo(() => generateStars(800), []);
   const starsMedium = useMemo(() => generateStars(400), []);
@@ -52,6 +45,8 @@ export function StarfieldOverlay() {
     }
     return stars;
   }, []);
+
+  if (!hasHydrated) return null;
 
   return (
     <>
@@ -134,20 +129,6 @@ export function StarfieldOverlay() {
         ))}
       </div>
 
-      <button
-        onClick={() => {
-          const newState = !isEnabled;
-          setIsEnabled(newState);
-          localStorage.setItem("starfieldEnabled", String(newState));
-        }}
-        className="group fixed bottom-20 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in"
-        style={{ animationDelay: '2.6s' }}
-      >
-        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-500 ease-in-out text-sm font-medium">
-          {isEnabled ? "Csillagok kikapcsolása" : "Csillagok bekapcsolása"}
-        </span>
-        <Sparkles className={`w-5 h-5 flex-shrink-0 transition-opacity ${isEnabled ? "opacity-100" : "opacity-30"}`} />
-      </button>
     </>
   );
 }

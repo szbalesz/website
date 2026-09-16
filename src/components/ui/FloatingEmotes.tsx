@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Ghost } from "lucide-react";
 import { useSavedEmotes } from "@/components/SavedEmotesProvider";
+import { useControls } from "@/components/ControlsProvider";
 
 interface EmoteData {
   id: string;
@@ -32,17 +33,13 @@ export function FloatingEmotes() {
   const lanyard = useLanyard();
   const currentFlyingEmotes = useRef<FlyingEmote[]>([]);
   const { saveEmote } = useSavedEmotes();
+  const { emotesEnabled: isEnabled, hasHydrated } = useControls();
 
-  const [isEnabled, setIsEnabled] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
   const isSpotifyPlaying = !!lanyard?.spotify;
 
   useEffect(() => {
-    const saved = localStorage.getItem("floatingEmotesEnabled");
-    if (saved !== null) {
-      setIsEnabled(saved === "true");
-    }
 
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -160,7 +157,7 @@ export function FloatingEmotes() {
         startX,
         startY,
         duration: duration,
-        scale: 0.64 + Math.random() * 0.96, // 80% of previous (0.8 to 2.0 -> 0.64 to 1.6)
+        scale: 0.84 + Math.random() * 1.25, // 80% of previous (0.8 to 2.0 -> 0.64 to 1.6)
         startRotation: startRot,
         endRotation: endRot,
         delay: initialDelay,
@@ -212,6 +209,8 @@ export function FloatingEmotes() {
     };
   }, [emotes, isSpotifyPlaying, isEnabled, isMobile]);
 
+  if (!hasHydrated) return null;
+
   return (
     <>
       <div
@@ -221,7 +220,7 @@ export function FloatingEmotes() {
           return (
             <div
               key={emote.key}
-              className="absolute animate-suck-into-blackhole pointer-events-auto cursor-pointer select-none"
+              className="absolute animate-suck-into-blackhole select-none pointer-events-auto cursor-pointer"
               onDragStart={(e) => e.preventDefault()}
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => {
@@ -261,25 +260,6 @@ export function FloatingEmotes() {
           );
         })}
       </div>
-
-      <button
-        onClick={() => {
-          const newState = !isEnabled;
-          if (newState) {
-            // When turning back on, clear any leftover hidden emotes to start fresh
-            setFlyingEmotes([]);
-          }
-          setIsEnabled(newState);
-          localStorage.setItem("floatingEmotesEnabled", String(newState));
-        }}
-        className="group fixed bottom-6 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in"
-        style={{ animationDelay: '2.4s' }}
-      >
-        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-500 ease-in-out text-sm font-medium">
-          {isEnabled ? "Emoteok kikapcsolása" : "Emoteok bekapcsolása"}
-        </span>
-        <Ghost className={`w-5 h-5 flex-shrink-0 transition-opacity ${isEnabled ? "opacity-100" : "opacity-30"}`} />
-      </button>
     </>
   );
 }
