@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BadgeTooltip } from "@/components/BadgeTooltip";
+import { BadgeTooltip } from "@/components/ui/BadgeTooltip";
 
 export function SevenTvBadge({ isMobile }: { isMobile?: boolean }) {
   const [badge, setBadge] = useState<any>(null);
