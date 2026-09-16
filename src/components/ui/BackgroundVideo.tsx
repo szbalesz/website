@@ -26,6 +26,8 @@ export function BackgroundVideo() {
           src="/background/appear.mp4"
           playsInline
           muted
+          loop
+          autoPlay
           className="absolute inset-0 w-full h-full object-cover"
         />
         
