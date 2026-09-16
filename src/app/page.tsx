@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { BadgeTooltip } from "@/components/ui/BadgeTooltip";
-import { Button } from "@/components/ui/button";
+
 import { MobileViewRow } from "@/components/ui/ViewCounter";
 import { LanyardProvider } from "@/hooks/useLanyard";
 import { LanyardStatus } from "@/components/discord/LanyardStatus";
