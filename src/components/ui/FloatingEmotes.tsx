@@ -212,11 +212,9 @@ export function FloatingEmotes() {
     };
   }, [emotes, isSpotifyPlaying, isEnabled, isMobile]);
 
-  if (emotes.length === 0) return null;
-
   return (
     <>
-      <div 
+      <div
         className={`fixed inset-0 pointer-events-none overflow-hidden z-[5] transition-opacity duration-1000 ${isEnabled ? 'opacity-100' : 'opacity-0'}`}
       >
         {flyingEmotes.map((emote) => {
@@ -274,7 +272,8 @@ export function FloatingEmotes() {
           setIsEnabled(newState);
           localStorage.setItem("floatingEmotesEnabled", String(newState));
         }}
-        className="group fixed bottom-6 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden"
+        className="group fixed bottom-6 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 text-white/70 hover:text-white transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in"
+        style={{ animationDelay: '2.4s' }}
       >
         <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-300 ease-out text-sm font-medium">
           {isEnabled ? "Emoteok kikapcsolása" : "Emoteok bekapcsolása"}

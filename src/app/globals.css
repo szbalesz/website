@@ -197,6 +197,22 @@
   animation: fadeIn 0.8s ease-out forwards;
 }
 
+@keyframes buttonSlideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-button-in {
+  opacity: 0;
+  animation: buttonSlideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes expandGrid {
   0% {
     grid-template-rows: 0fr;
