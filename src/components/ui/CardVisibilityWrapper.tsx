@@ -78,7 +78,13 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
                       className="flex items-center gap-1.5 bg-black/20 px-2 py-0.5 rounded-full"
                     >
                       <img src={`https://cdn.7tv.app/emote/${emote.id}/1x.webp`} alt={emote.name} className="w-4 h-4 object-contain" />
-                      <span className="text-xs font-bold text-white/90">
+                      <span 
+                        className="text-xs font-bold text-white/90 whitespace-nowrap overflow-hidden max-w-[120px] block"
+                        style={{
+                          WebkitMaskImage: 'linear-gradient(to right, black 0px, black 100px, transparent 120px)',
+                          maskImage: 'linear-gradient(to right, black 0px, black 100px, transparent 120px)'
+                        }}
+                      >
                         {emote.name}
                       </span>
                     </motion.div>
