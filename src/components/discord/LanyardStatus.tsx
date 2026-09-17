@@ -203,8 +203,8 @@ export function LanyardStatus() {
       }}
     >
       <div ref={contentRef} className="w-full pt-6">
-        <div className="flex flex-col w-full bg-black/5 dark:bg-white/5 rounded-xl border border-border/50 text-left overflow-hidden">
-          <div className="bg-black/15 dark:bg-black/25 px-4 py-2 border-b border-border/50 flex justify-between items-center h-9">
+        <div className="flex flex-col w-full bg-black/15 dark:bg-black/25 rounded-xl border border-border/50 text-left overflow-hidden">
+          <div className="px-4 py-2 border-b border-border/50 flex justify-between items-center h-9">
             <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
               Jelenlegi tevékenység {activitiesToRender.length > 1 && `(${currentIndex + 1}/${activitiesToRender.length})`}
             </span>
