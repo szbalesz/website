@@ -98,7 +98,8 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
 
       <style>{`
         @keyframes combo-progress {
-          0%, 50% { stroke-dashoffset: 0; stroke: #ef4444; opacity: 1; }
+          0%, 20% { stroke-dashoffset: 0; stroke: #ef4444; opacity: 0; }
+          30%, 50% { stroke-dashoffset: 0; stroke: #ef4444; opacity: 1; }
           75% { stroke: #eab308; opacity: 1; }
           95% { stroke: #22c55e; opacity: 1; }
           100% { stroke-dashoffset: 301.59; stroke: #22c55e; opacity: 0; }
