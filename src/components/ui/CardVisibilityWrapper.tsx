@@ -111,8 +111,14 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
             if (isCooldown) return;
             setHasToggled(true);
             setCardVisible(!isVisible);
-            setIsCooldown(true);
-            setTimeout(() => setIsCooldown(false), 1500);
+            
+            // Ha belépünk Játék módba (isVisible true volt, most false lesz) és van aktív combo,
+            // akkor a combo delay letiltja a gombot, így nem kell az 1.5s cooldown.
+            const willBeDisabledByCombo = isVisible && comboCount > 0;
+            if (!willBeDisabledByCombo) {
+              setIsCooldown(true);
+              setTimeout(() => setIsCooldown(false), 1500);
+            }
           }}
           disabled={(!isVisible && comboCount > 0) || isCooldown}
           className={`group flex items-center justify-center p-3 rounded-full bg-black/40 border border-white/10 transition-all backdrop-blur-sm shadow-lg overflow-hidden ${(!isVisible && comboCount > 0) || isCooldown
