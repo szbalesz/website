@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 // Konvertálja a 7TV RGBA color intet rgba formátumba
 const intToRgba = (intColor: number) => {
   if (intColor === undefined || intColor === null) return undefined;
@@ -14,71 +12,9 @@ const intToRgba = (intColor: number) => {
   return `rgba(${r}, ${g}, ${b}, ${a / 255})`;
 };
 
-export function SevenTvName({ name }: { name: string }) {
-  const [style, setStyle] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetch7TV() {
-      try {
-        const query = `
-          query {
-            user(id: "${process.env.NEXT_PUBLIC_SEVENTV_USER_ID}") {
-              style {
-                color
-                paint {
-                  id
-                  color
-                  stops {
-                    at
-                    color
-                  }
-                  angle
-                  shape
-                  repeat
-                  image_url
-                  shadows {
-                    x_offset
-                    y_offset
-                    radius
-                    color
-                  }
-                }
-                badge {
-                  id
-                  name
-                  tooltip
-                  host {
-                    url
-                  }
-                }
-              }
-            }
-          }
-        `;
-        
-        const res = await fetch('https://7tv.io/v3/gql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
-        });
-        
-        const json = await res.json();
-        const userStyle = json?.data?.user?.style;
-        if (userStyle) {
-          setStyle(userStyle);
-        }
-      } catch (e) {
-        console.error("Failed to fetch 7TV style", e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetch7TV();
-  }, []);
-
-  // Ha még tölt, vagy nincs adat, akkor egyszerűen visszaadjuk a nevet
-  if (loading || !style) {
+export function SevenTvName({ name, style }: { name: string, style?: any }) {
+  // Ha nincs adat, akkor egyszerűen visszaadjuk a nevet
+  if (!style) {
     return <span className="font-medium text-text-primary truncate">{name}</span>;
   }
 

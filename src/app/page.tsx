@@ -22,26 +22,18 @@ import { SavedEmotesBadge } from "@/components/ui/SavedEmotesBadge";
 import { CardVisibilityWrapper } from "@/components/ui/CardVisibilityWrapper";
 import { ControlsProvider } from "@/components/ControlsProvider";
 import { ControlsMenu } from "@/components/ui/ControlsMenu";
+import { get7TvConnections } from "@/lib/7tv";
 
 export default async function Home() {
   let mainTitle = "SZBALESZ";
-  try {
-    if (process.env.NEXT_PUBLIC_DISCORD_USER_ID) {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`, {
-        next: { revalidate: 3600 }
-      });
-      const data = await res.json();
-      const discordUser = data?.data?.discord_user;
-      if (discordUser) {
-        mainTitle = (discordUser.global_name || discordUser.username).toUpperCase();
-      }
-    }
-  } catch (e) {
-    console.error("Failed to fetch Discord username for page", e);
+  const { seventvDisplayName, discordId, discordName, twitchName, twitchDisplayName, kickName, kickDisplayName, badge, style } = await get7TvConnections();
+
+  if (seventvDisplayName) {
+    mainTitle = seventvDisplayName.toUpperCase();
   }
 
   return (
-    <LanyardProvider>
+    <LanyardProvider discordId={discordId}>
       <ControlsProvider>
         <SavedEmotesProvider>
           <main className="flex min-h-[100dvh] flex-col items-center justify-center text-text-primary antialiased relative">
@@ -57,7 +49,7 @@ export default async function Home() {
                     <div className="relative rounded-xl overflow-hidden w-full">
 
                       {/* BANNER */}
-                      <AnimatedBanner bannerUrl={process.env.NEXT_PUBLIC_DISCORD_BANNER_URL || `https://cdn.discordapp.com/banners/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}/a_df5e94147df1f27e6aaf29a72e1f710d.gif?size=4096`} />
+                      <AnimatedBanner bannerUrl={process.env.NEXT_PUBLIC_DISCORD_BANNER_URL || (discordId ? `https://cdn.discordapp.com/banners/${discordId}/a_df5e94147df1f27e6aaf29a72e1f710d.gif?size=4096` : "")} />
 
                       {/* CARD BODY */}
                       <div className="relative px-6 pb-6 pt-16 rounded-b-xl border-t-0 border-x border-b border-white/5 bg-gradient-to-b from-black/60 to-transparent">
@@ -71,14 +63,14 @@ export default async function Home() {
                             color="#f59e0b"
                             icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>}
                           />
-                          <SevenTvBadge />
+                          <SevenTvBadge badge={badge} />
                           <SavedEmotesBadge />
                           <ViewCounter />
                         </div>
 
                         {/* AVATAR OVERLAY */}
                         <div className="absolute -top-12 left-1/2 -translate-x-1/2 z-20">
-                          <DiscordAvatar />
+                          <DiscordAvatar discordId={discordId} />
                         </div>
 
                         {/* USER INFO */}
@@ -105,7 +97,7 @@ export default async function Home() {
                             </div>
                             <MobileViewRow />
                             <SavedEmotesBadge isMobile />
-                            <SevenTvBadge isMobile />
+                            <SevenTvBadge badge={badge} isMobile />
                           </div>
                         </div>
 
@@ -116,16 +108,20 @@ export default async function Home() {
 
 
                             {/* Discord */}
-                            <DiscordButton />
+                            {discordId && (
+                              <DiscordButton discordId={discordId} discordName={discordName} />
+                            )}
 
                             {/* Twitch */}
-                            <SocialButton
-                              href="https://twitch.tv/szbalesz"
-                              platform="Twitch"
-                              username={<SevenTvName name="سباليس (szbalesz)" />}
-                              icon={<svg viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></path></svg>}
-                              color="#9146FF"
-                            />
+                            {twitchName && (
+                              <SocialButton
+                                href={`https://twitch.tv/${twitchName}`}
+                                platform="Twitch"
+                                username={<SevenTvName name={twitchDisplayName ? `${twitchDisplayName} (${twitchName})` : twitchName} style={style} />}
+                                icon={<svg viewBox="0 0 24 24" fill="#9146FF"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"></path></svg>}
+                                color="#9146FF"
+                              />
+                            )}
 
                             {/* Instagram */}
                             <SocialButton
@@ -146,13 +142,15 @@ export default async function Home() {
                             />
 
                             {/* Kick */}
-                            <SocialButton
-                              href="https://kick.com/szbalesz"
-                              platform="Kick"
-                              username={<SevenTvName name="SZBALESZ" />}
-                              icon={<svg className="w-[14px] h-[14px]" viewBox="0 0 512 512" fill="#53fc18"><path d="M37 .036h164.448v113.621h54.71v-56.82h54.731V.036h164.448v170.777h-54.73v56.82h-54.711v56.8h54.71v56.82h54.73V512.03H310.89v-56.82h-54.73v-56.8h-54.711v113.62H37V.036z" /></svg>}
-                              color="#53fc18"
-                            />
+                            {kickName && (
+                              <SocialButton
+                                href={`https://kick.com/${kickName}`}
+                                platform="Kick"
+                                username={<SevenTvName name={kickDisplayName || kickName} style={style} />}
+                                icon={<svg className="w-[14px] h-[14px]" viewBox="0 0 512 512" fill="#53fc18"><path d="M37 .036h164.448v113.621h54.71v-56.82h54.731V.036h164.448v170.777h-54.73v56.82h-54.711v56.8h54.71v56.82h54.73V512.03H310.89v-56.82h-54.73v-56.8h-54.711v113.62H37V.036z" /></svg>}
+                                color="#53fc18"
+                              />
+                            )}
 
                             {/* Spotify */}
                             <SocialButton

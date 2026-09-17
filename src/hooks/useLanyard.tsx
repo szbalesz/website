@@ -4,13 +4,14 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 
 const LanyardContext = createContext<any>(null);
 
-export function LanyardProvider({ children }: { children: ReactNode }) {
+export function LanyardProvider({ children, discordId }: { children: ReactNode, discordId: string | null }) {
   const [data, setData] = useState<any>(null);
 
   useEffect(() => {
+    if (!discordId) return;
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}?_t=${Date.now()}`, { 
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${discordId}?_t=${Date.now()}`, { 
           cache: "no-store" 
         });
         const json = await res.json();
@@ -25,7 +26,7 @@ export function LanyardProvider({ children }: { children: ReactNode }) {
     fetchStatus();
     const interval = setInterval(fetchStatus, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [discordId]);
 
   useEffect(() => {
     if (data?.discord_user?.display_name_styles?.colors) {

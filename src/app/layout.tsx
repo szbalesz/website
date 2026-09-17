@@ -15,21 +15,17 @@ const designerFont = localFont({
   display: "swap",
 });
 
+import { get7TvConnections } from "@/lib/7tv";
+
 export async function generateMetadata(): Promise<Metadata> {
   let titleText = "SZBALESZ | SOCIALS";
   try {
-    if (process.env.NEXT_PUBLIC_DISCORD_USER_ID) {
-      const res = await fetch(`https://api.lanyard.rest/v1/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`, {
-        next: { revalidate: 3600 }
-      });
-      const data = await res.json();
-      const discordUser = data?.data?.discord_user;
-      if (discordUser) {
-        titleText = `${(discordUser.global_name || discordUser.username).toUpperCase()} | SOCIALS`;
-      }
+    const { seventvDisplayName } = await get7TvConnections();
+    if (seventvDisplayName) {
+      titleText = `${seventvDisplayName.toUpperCase()} | SOCIALS`;
     }
   } catch (e) {
-    console.error("Failed to fetch Discord username for title", e);
+    console.error("Failed to fetch 7TV username for title", e);
   }
 
   return {

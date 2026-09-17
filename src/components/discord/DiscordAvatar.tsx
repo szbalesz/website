@@ -5,7 +5,7 @@ import { useLanyard } from "@/hooks/useLanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-export function DiscordAvatar() {
+export function DiscordAvatar({ discordId }: { discordId: string | null }) {
   const data = useLanyard();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -25,7 +25,7 @@ export function DiscordAvatar() {
   const { color, text } = getStatusConfig();
 
   // Avatar and Decoration fallback
-  const fallbackAvatar = `https://cdn.discordapp.com/avatars/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}/a_a0b61953e1eaff386c8e1bd2a41285d3.gif?size=512`;
+  const fallbackAvatar = discordId ? `https://cdn.discordapp.com/avatars/${discordId}/a_a0b61953e1eaff386c8e1bd2a41285d3.gif?size=512` : "";
   const fallbackDecoration = "https://cdn.discordapp.com/avatar-decoration-presets/a_1a9bd997a5cfdab034f6d512ed494596.png?size=160&passthrough=true";
 
   const getAvatarUrl = () => {

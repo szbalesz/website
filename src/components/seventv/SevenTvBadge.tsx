@@ -1,50 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { BadgeTooltip } from "@/components/ui/BadgeTooltip";
 
-export function SevenTvBadge({ isMobile }: { isMobile?: boolean }) {
-  const [badge, setBadge] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetch7TV() {
-      try {
-        const query = `
-          query {
-            user(id: "${process.env.NEXT_PUBLIC_SEVENTV_USER_ID}") {
-              style {
-                badge {
-                  id
-                  name
-                  tooltip
-                  host {
-                    url
-                  }
-                }
-              }
-            }
-          }
-        `;
-
-        const res = await fetch('https://7tv.io/v3/gql', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
-        });
-
-        const json = await res.json();
-        const b = json?.data?.user?.style?.badge;
-        if (b?.host?.url) {
-          setBadge(b);
-        }
-      } catch (e) {
-        console.error("Failed to fetch 7TV badge", e);
-      }
-    }
-    fetch7TV();
-  }, []);
-
-  if (!badge) return null;
+export function SevenTvBadge({ badge, isMobile }: { badge: any, isMobile?: boolean }) {
+  if (!badge?.host?.url) return null;
 
   const badgeUrl = `https:${badge.host.url}/2x.webp`;
 
