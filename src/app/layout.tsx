@@ -35,16 +35,17 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
+    metadataBase: new URL('https://szbalesz.com'),
     title: titleText,
     description: `${titleText} – közösségi média és elérhetőségek.`,
     openGraph: {
       title: titleText,
       description: `${titleText} – közösségi média és elérhetőségek.`,
-      url: 'https://szbalesz.hu', // You might want to change this to your actual URL
+      url: 'https://szbalesz.com',
       siteName: titleText,
       images: [
         {
-          url: '/icon.jpg', // Next.js will automatically look for this in the public folder
+          url: '/icon.jpg', 
           width: 800,
           height: 800,
           alt: `${titleText} Icon`,
