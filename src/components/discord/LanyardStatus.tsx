@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Music, Gamepad2, Monitor, Tv, Clock } from "lucide-react";
+import { Music, Gamepad2, Monitor, Tv, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -140,6 +141,8 @@ export function LanyardStatus() {
   const data = useLanyard();
   const [lastActivities, setLastActivities] = useState<any[]>([]);
   const [contentHeight, setContentHeight] = useState<number | "auto">(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -175,6 +178,22 @@ export function LanyardStatus() {
   // Amikor nincsenek aktív tevékenységek, a legutolsót mutatjuk, hogy szép legyen az összecsukó animáció
   const activitiesToRender = hasActivities ? customActivities : lastActivities;
 
+  useEffect(() => {
+    if (currentIndex >= activitiesToRender.length) {
+      setCurrentIndex(0);
+    }
+  }, [activitiesToRender.length, currentIndex]);
+
+  useEffect(() => {
+    if (activitiesToRender.length <= 1 || isHovered) return;
+    
+    const timeout = setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % activitiesToRender.length);
+    }, 5000);
+    
+    return () => clearTimeout(timeout);
+  }, [activitiesToRender.length, isHovered, currentIndex]);
+
   return (
     <div
       className="w-full transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden"
@@ -185,21 +204,49 @@ export function LanyardStatus() {
     >
       <div ref={contentRef} className="w-full pt-6">
         <div className="flex flex-col w-full bg-black/5 dark:bg-white/5 rounded-xl border border-border/50 text-left overflow-hidden">
-          <div className="bg-black/10 dark:bg-white/10 px-4 py-2 border-b border-border/50">
+          <div className="bg-black/15 dark:bg-black/25 px-4 py-2 border-b border-border/50 flex justify-between items-center h-9">
             <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
-              Jelenlegi tevékenység
+              Jelenlegi tevékenység {activitiesToRender.length > 1 && `(${currentIndex + 1}/${activitiesToRender.length})`}
             </span>
+            {activitiesToRender.length > 1 && (
+              <div className="flex gap-1.5">
+                <button 
+                  onClick={() => setCurrentIndex(prev => (prev - 1 + activitiesToRender.length) % activitiesToRender.length)} 
+                  className="text-text-muted hover:text-text-primary transition-colors bg-white/5 hover:bg-white/10 rounded p-0.5"
+                >
+                  <ChevronLeft size={14} />
+                </button>
+                <button 
+                  onClick={() => setCurrentIndex(prev => (prev + 1) % activitiesToRender.length)} 
+                  className="text-text-muted hover:text-text-primary transition-colors bg-white/5 hover:bg-white/10 rounded p-0.5"
+                >
+                  <ChevronRight size={14} />
+                </button>
+              </div>
+            )}
           </div>
 
-          <div className="flex flex-col p-4">
-            {activitiesToRender.map((activity: any, index: number) => {
-              const isSpotify = activity.id === "spotify:1" && data?.spotify;
-
-              return (
-                <div key={activity.id || index} className="flex flex-col">
-                  {index > 0 && <div className="h-[1px] bg-border/50 my-4 transition-opacity duration-300" />}
-
-                  {isSpotify ? (
+          <div 
+            className="flex flex-col p-4 relative h-[140px]"
+            onMouseEnter={() => setIsHovered(true)} 
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <AnimatePresence mode="wait">
+              {activitiesToRender.length > 0 && (
+                <motion.div
+                  key={activitiesToRender[currentIndex]?.id || currentIndex}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col"
+                >
+                  {(() => {
+                    const activity = activitiesToRender[currentIndex];
+                    if (!activity) return null;
+                    const isSpotify = activity.id === "spotify:1" && data?.spotify;
+                    
+                    return isSpotify ? (
                     <div className="flex flex-col gap-2 animate-fade">
                       <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
                         Ezt hallgatja: Spotify
@@ -289,10 +336,11 @@ export function LanyardStatus() {
                         </div>
                       </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
+                  );
+                })()}
+              </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
