@@ -96,24 +96,54 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
         </AnimatePresence>
       </div>
 
-      <button
-        onClick={() => {
-          setHasToggled(true);
-          setCardVisible(!isVisible);
-        }}
-        disabled={!isVisible && comboCount > 0}
-        className={`group fixed top-1/2 -translate-y-1/2 right-6 z-50 hidden md:flex items-center justify-center p-3 rounded-full bg-black/40 border border-white/10 transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in ${
-          !isVisible && comboCount > 0 
-            ? 'opacity-30 pointer-events-none cursor-not-allowed text-white/30' 
-            : 'hover:bg-black/60 text-white/70 hover:text-white cursor-pointer'
-        }`}
+      <style>{`
+        @keyframes combo-progress {
+          0%, 50% { stroke-dashoffset: 0; stroke: #ef4444; opacity: 1; }
+          75% { stroke: #eab308; opacity: 1; }
+          95% { stroke: #22c55e; opacity: 1; }
+          100% { stroke-dashoffset: 301.59; stroke: #22c55e; opacity: 0; }
+        }
+      `}</style>
+      <div 
+        className={`fixed top-1/2 -translate-y-1/2 right-6 z-50 hidden md:flex items-center justify-center animate-button-in ${!isVisible && comboCount > 0 ? 'pointer-events-none' : ''}`}
         style={{ animationDelay: '2.5s' }}
       >
-        <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-500 ease-in-out text-sm font-medium">
-          {isVisible ? "Játék mód" : "Kilépés a játékból"}
-        </span>
-        <Gamepad2 className="w-5 h-5 flex-shrink-0 transition-opacity" />
-      </button>
+        <button
+          onClick={() => {
+            setHasToggled(true);
+            setCardVisible(!isVisible);
+          }}
+          disabled={!isVisible && comboCount > 0}
+          className={`group flex items-center justify-center p-3 rounded-full bg-black/40 border border-white/10 transition-all backdrop-blur-sm shadow-lg overflow-hidden ${
+            !isVisible && comboCount > 0 
+              ? 'opacity-30 cursor-not-allowed text-white/30' 
+              : 'hover:bg-black/60 text-white/70 hover:text-white cursor-pointer'
+          }`}
+        >
+          <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[200px] group-hover:opacity-100 group-hover:mr-2 transition-all duration-500 ease-in-out text-sm font-medium">
+            {isVisible ? "Játék mód" : "Kilépés a játékból"}
+          </span>
+          <Gamepad2 className="w-5 h-5 flex-shrink-0 transition-opacity" />
+        </button>
+
+        {!isVisible && comboCount > 0 && (
+          <svg 
+            key={comboCount}
+            className="absolute -inset-1.5 w-[calc(100%+12px)] h-[calc(100%+12px)] pointer-events-none -rotate-90 drop-shadow-[0_0_5px_rgba(234,179,8,0.8)]"
+            viewBox="0 0 100 100"
+          >
+            <circle
+              cx="50" cy="50" r="48"
+              fill="none"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeDasharray="301.59"
+              strokeDashoffset="0"
+              style={{ animation: 'combo-progress 2.5s linear forwards' }}
+            />
+          </svg>
+        )}
+      </div>
     </>
   );
 }
