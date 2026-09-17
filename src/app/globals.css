@@ -192,12 +192,7 @@
   }
 }
 
-.animate-card-exit {
-  display: grid;
-  grid-template-rows: 1fr;
-  opacity: 1;
-  animation: blackholeSuckIn 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+
 
 .card-hide .animate-card {
   animation: blackholeSuckIn 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
@@ -510,25 +505,7 @@
   }
 }
 
-/* Global freeze class */
-.freeze-animations * {
-  animation-play-state: paused !important;
-}
 
-@keyframes comboSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.animate-combo-in {
-  animation: comboSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
 
 @keyframes mlgColors {
   0% { color: #ff0000; filter: drop-shadow(0 0 10px rgba(255,0,0,1)); transform: scale(1.1) rotate(-2deg); }

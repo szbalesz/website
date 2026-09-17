@@ -1,9 +1,7 @@
 import { BackgroundVideo } from "@/components/ui/BackgroundVideo";
 import { ViewCounter } from "@/components/ui/ViewCounter";
 import { AnimatedBanner } from "@/components/ui/AnimatedBanner";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Card } from "@/components/ui/card";
 import { BadgeTooltip } from "@/components/ui/BadgeTooltip";
 
 import { MobileViewRow } from "@/components/ui/ViewCounter";
@@ -111,8 +109,6 @@ export default async function Home() {
                           </div>
                         </div>
 
-                        {/* STATS */}
-                        {/* STATS */}
 
                         {/* CONNECTIONS */}
                         <div className="text-center justify-center mt-4">

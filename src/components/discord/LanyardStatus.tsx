@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Music, Gamepad2, Monitor, Tv, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import { Music, Gamepad2, Monitor, Tv, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";

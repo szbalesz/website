@@ -3,8 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 interface ControlsContextType {
-  isFrozen: boolean;
-  setIsFrozen: (value: boolean) => void;
   emotesEnabled: boolean;
   setEmotesEnabled: (value: boolean) => void;
   cardVisible: boolean;
@@ -77,8 +75,6 @@ export function ControlsProvider({ children }: { children: React.ReactNode }) {
   return (
     <ControlsContext.Provider
       value={{
-        isFrozen: false, // Legacy field for compatibility, unused
-        setIsFrozen: () => {},
         emotesEnabled,
         setEmotesEnabled,
         cardVisible,
