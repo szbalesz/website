@@ -38,6 +38,9 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL('https://szbalesz.com'),
     title: titleText,
     description: `${titleText} – közösségi média és elérhetőségek.`,
+    icons: {
+      icon: '/icon.jpg',
+    },
     openGraph: {
       title: titleText,
       description: `${titleText} – közösségi média és elérhetőségek.`,
