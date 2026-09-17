@@ -124,6 +124,7 @@ export function StarfieldOverlay() {
               animationDelay: `${star.delay}s`,
               animationIterationCount: 'infinite',
               animationTimingFunction: 'cubic-bezier(0.5, 0, 0.2, 1)',
+              animationFillMode: 'both',
             } as React.CSSProperties}
           />
         ))}
