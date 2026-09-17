@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useControls } from "@/components/ControlsProvider";
 
 export function BackgroundVideo() {
-  const { bgMotionEnabled, hasHydrated } = useControls();
+  const { bgMotionEnabled, hasHydrated, setIsVideoFinished } = useControls();
   const appearRef = useRef<HTMLVideoElement>(null);
   const animRef = useRef<HTMLVideoElement>(null);
   const [isAppearFinished, setIsAppearFinished] = useState(false);
@@ -48,6 +48,7 @@ export function BackgroundVideo() {
       if (video.duration && video.duration - video.currentTime <= 1.0) {
         if (!isAppearFinished) {
           setIsAppearFinished(true);
+          setIsVideoFinished(true);
           if (animRef.current && bgMotionEnabled) {
             animRef.current.play().catch((e) => {
               console.warn("Autoplay prevented for anim:", e);

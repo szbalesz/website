@@ -13,7 +13,7 @@ export function DiscordButton() {
   }
 
   return (
-    <a href={`https://discordapp.com/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`} target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity" style={{ animationDelay: '3.1s' }}>
+    <a href={`https://discordapp.com/users/${process.env.NEXT_PUBLIC_DISCORD_USER_ID}`} target="_blank" rel="noopener noreferrer" className="block w-full hover:opacity-80 animate-card transition-opacity">
       <div
         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border relative overflow-hidden group"
         style={{

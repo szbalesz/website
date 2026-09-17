@@ -33,7 +33,8 @@ export function FloatingEmotes() {
   const lanyard = useLanyard();
   const currentFlyingEmotes = useRef<FlyingEmote[]>([]);
   const { saveEmote } = useSavedEmotes();
-  const { emotesEnabled: isEnabled, hasHydrated } = useControls();
+  const { emotesEnabled, cardVisible, hasHydrated } = useControls();
+  const isEnabled = emotesEnabled || !cardVisible;
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -108,7 +109,7 @@ export function FloatingEmotes() {
         const forceCount = currentFlyingEmotes.current.filter(e => e.emoteId === candidate.id).length;
         if (forceCount >= 2) {
           if (isMusicParty) {
-            const nextSpawnTime = 1050 + Math.random() * 2100;
+            const nextSpawnTime = 3000 + Math.random() * 4000;
             const spawnTimeout = setTimeout(() => spawnEmote(true), nextSpawnTime);
             spawnTimeouts.current.add(spawnTimeout);
           } else {
@@ -175,7 +176,7 @@ export function FloatingEmotes() {
       removeTimeouts.current.add(removeTimeout);
 
       if (isMusicParty) {
-        const nextSpawnTime = 1050 + Math.random() * 2100;
+        const nextSpawnTime = 3000 + Math.random() * 4000;
         const spawnTimeout = setTimeout(() => spawnEmote(true), nextSpawnTime);
         spawnTimeouts.current.add(spawnTimeout);
       } else {
@@ -191,7 +192,7 @@ export function FloatingEmotes() {
       spawnTimeouts.current.add(burstTimeout);
     }
     if (isSpotifyPlaying && musicEmotes.length > 0) {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 1; i++) {
         const partyBurst = setTimeout(() => spawnEmote(true, 0), i * 150);
         spawnTimeouts.current.add(partyBurst);
       }
@@ -220,11 +221,11 @@ export function FloatingEmotes() {
           return (
             <div
               key={emote.key}
-              className="absolute animate-suck-into-blackhole select-none pointer-events-auto cursor-pointer"
+              className="absolute animate-suck-into-blackhole select-none pointer-events-auto cursor-crosshair"
               onDragStart={(e) => e.preventDefault()}
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => {
-                saveEmote();
+                saveEmote({ name: emote.name, id: emote.emoteId });
                 setFlyingEmotes((prev) => prev.filter((e) => e.key !== emote.key));
               }}
               style={{

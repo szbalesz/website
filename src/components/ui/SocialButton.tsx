@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface SocialButtonProps {
   href: string;
-  animationDelay: string;
+  animationDelay?: string;
   color: string;
   icon: React.ReactNode;
   username: React.ReactNode;
@@ -16,7 +16,7 @@ export function SocialButton({ href, animationDelay, color, icon, username, plat
       target="_blank" 
       rel="noopener noreferrer" 
       className="block w-full hover:opacity-80 animate-card transition-opacity" 
-      style={{ animationDelay }}
+      style={animationDelay ? { animationDelay } : undefined}
     >
       <div 
         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border" 

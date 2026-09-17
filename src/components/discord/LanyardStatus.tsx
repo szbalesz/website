@@ -73,28 +73,54 @@ const formatTime = (ms: number) => {
 
 const TimeTracker = ({ timestamps }: { timestamps?: { start?: number, end?: number } }) => {
   const [now, setNow] = useState(Date.now());
+  const progressRef = useRef<HTMLDivElement>(null);
+
+  const start = timestamps?.start;
+  const end = timestamps?.end;
+  const isFixedDuration = !!end;
 
   useEffect(() => {
-    if (!timestamps?.start) return;
+    if (!start) return;
+    
+    // Szöveges számláló frissítése másodpercenként
     const interval = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(interval);
-  }, [timestamps]);
+    
+    // Progress bar smooth frissítése 60 FPS-el (ha van vége)
+    let animationFrameId: number;
+    const updateProgress = () => {
+      if (end && start && progressRef.current) {
+        const totalMs = end - start;
+        const elapsedMs = Math.max(0, Math.min(Date.now() - start, totalMs));
+        const progress = (elapsedMs / totalMs) * 100;
+        progressRef.current.style.width = `${progress}%`;
+      }
+      animationFrameId = requestAnimationFrame(updateProgress);
+    };
 
-  if (!timestamps?.start) return null;
+    if (end) {
+      animationFrameId = requestAnimationFrame(updateProgress);
+    }
 
-  const { start, end } = timestamps;
-  const isFixedDuration = !!end;
+    return () => {
+      clearInterval(interval);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, [start, end]);
+
+  if (!start) return null;
 
   if (isFixedDuration) {
     const totalMs = end - start;
     const elapsedMs = Math.max(0, Math.min(now - start, totalMs));
-    const progress = (elapsedMs / totalMs) * 100;
 
     return (
       <div className="flex items-center gap-2 mt-2 w-full text-[11px] text-text-muted font-mono font-medium">
         <span className="w-10 text-left">{formatTime(elapsedMs)}</span>
         <div className="flex-1 h-1.5 bg-black/20 dark:bg-white/10 rounded-full overflow-hidden">
-          <div className="h-full bg-text-primary rounded-full" style={{ width: `${progress}%` }} />
+          <div 
+            ref={progressRef}
+            className="h-full bg-text-primary rounded-full" 
+          />
         </div>
         <span className="w-10 text-right">{formatTime(totalMs)}</span>
       </div>

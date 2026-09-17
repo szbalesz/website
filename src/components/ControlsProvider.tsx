@@ -16,12 +16,15 @@ interface ControlsContextType {
   partyEnabled: boolean;
   setPartyEnabled: (value: boolean) => void;
   hasHydrated: boolean;
+  isVideoFinished: boolean;
+  setIsVideoFinished: (value: boolean) => void;
 }
 
 const ControlsContext = createContext<ControlsContextType | undefined>(undefined);
 
 export function ControlsProvider({ children }: { children: React.ReactNode }) {
   const [hasHydrated, setHasHydrated] = useState(false);
+  const [isVideoFinished, setIsVideoFinished] = useState(false);
   
   // Load initial settings from localStorage if available
   const [emotesEnabled, setEmotesEnabled] = useState(true);
@@ -87,6 +90,8 @@ export function ControlsProvider({ children }: { children: React.ReactNode }) {
         partyEnabled,
         setPartyEnabled,
         hasHydrated,
+        isVideoFinished,
+        setIsVideoFinished,
       }}
     >
       {children}
