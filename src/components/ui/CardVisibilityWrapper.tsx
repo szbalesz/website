@@ -21,7 +21,7 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
         {children}
       </div>
 
-      <div className={`fixed top-8 z-20 flex flex-col gap-3 pointer-events-none transition-all duration-700 ease-in-out ${
+      <div className={`hidden md:flex fixed top-8 z-20 flex-col gap-3 pointer-events-none transition-all duration-700 ease-in-out ${
         !isVisible ? 'left-1/2 -translate-x-1/2 items-center' : 'left-8 items-start'
       } ${
         !isVideoFinished ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'
