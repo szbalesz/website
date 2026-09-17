@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -19,6 +19,10 @@ const designerFont = localFont({
 
 import { get7TvConnections } from "@/lib/7tv";
 
+export const viewport: Viewport = {
+  themeColor: "#f59e0b",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   let titleText = "SZBALESZ | SOCIALS";
   try {
@@ -33,6 +37,28 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: titleText,
     description: `${titleText} – közösségi média és elérhetőségek.`,
+    openGraph: {
+      title: titleText,
+      description: `${titleText} – közösségi média és elérhetőségek.`,
+      url: 'https://szbalesz.hu', // You might want to change this to your actual URL
+      siteName: titleText,
+      images: [
+        {
+          url: '/icon.jpg', // Next.js will automatically look for this in the public folder
+          width: 800,
+          height: 800,
+          alt: `${titleText} Icon`,
+        },
+      ],
+      locale: 'hu_HU',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: titleText,
+      description: `${titleText} – közösségi média és elérhetőségek.`,
+      images: ['/icon.jpg'],
+    },
   };
 }
 
