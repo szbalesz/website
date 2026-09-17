@@ -1,6 +1,6 @@
 # SzBalesz Personal Portfolio
 
-Személyes profiloldal, amely egy helyen gyűjti össze a közösségi média hivatkozásokat, kiegészítve valós idejű Discord és 7TV adatokkal, interaktív elemekkel és prémium dizájnnal.
+Személyes profiloldal, amely egy helyen gyűjti össze a közösségi média hivatkozásokat, kiegészítve valós idejű Discord és 7TV adatokkal, interaktív elemekkel.
 
 ## Funkciók
 
