@@ -20,7 +20,7 @@ export function ControlsMenu() {
   } = useControls();
   const { comboCount } = useSavedEmotes();
 
-  const anyEnabled = partyEnabled || starsEnabled || emotesEnabled || bgMotionEnabled;
+  const anyEnabled = partyEnabled || starsEnabled || (cardVisible ? emotesEnabled : false) || bgMotionEnabled;
 
   return (
     <TooltipProvider delay={0}>
