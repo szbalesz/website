@@ -51,7 +51,7 @@ export async function get7TvConnections() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query }),
-      next: { revalidate: 3600 }
+      next: { revalidate: 60 } // Frissüljön 60 másodpercenként
     });
     const json = await res.json();
     const data = json?.data?.user;

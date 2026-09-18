@@ -32,26 +32,29 @@ export function SevenTvName({ name, style }: { name: string, style?: any }) {
       bgImage = `url('${p.image_url}')`;
     }
 
-    const shadowList = p.shadows && p.shadows.length > 0 
-      ? p.shadows.map((s: any) => `drop-shadow(${s.x_offset}px ${s.y_offset}px ${s.radius}px ${intToRgba(s.color)})`).join(' ')
-      : 'none';
+    if (bgImage !== 'none') {
+      const shadowList = p.shadows && p.shadows.length > 0 
+        ? p.shadows.map((s: any) => `drop-shadow(${s.x_offset}px ${s.y_offset}px ${s.radius}px ${intToRgba(s.color)})`).join(' ')
+        : 'none';
 
-    return (
-      <span 
-        className="font-medium truncate"
-        style={{
-          backgroundImage: bgImage,
-          backgroundSize: p.repeat ? 'auto' : '100% 100%',
-          backgroundRepeat: p.repeat ? 'repeat' : 'unset',
-          WebkitBackgroundClip: 'text',
-          backgroundClip: 'text',
-          color: 'transparent',
-          filter: shadowList !== 'none' ? shadowList : undefined
-        }}
-      >
-        {name}
-      </span>
-    );
+      return (
+        <span 
+          className="font-medium truncate"
+          style={{
+            backgroundImage: bgImage,
+            backgroundSize: p.repeat ? 'auto' : '100% 100%',
+            backgroundRepeat: p.repeat ? 'repeat' : 'unset',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent',
+            filter: shadowList !== 'none' ? shadowList : undefined
+          }}
+        >
+          {name}
+        </span>
+      );
+    }
   }
 
   // Ha csak egy sima egyedi szín van beállítva
