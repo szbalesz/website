@@ -61,7 +61,7 @@ export function FloatingEmotes() {
   }, [flyingEmotes]);
 
   useEffect(() => {
-    fetch("https://api.7tv.app/v3/emote-sets/01M16KPPYC70JDYZJ283SN8N89")
+    fetch("https://api.7tv.app/v3/emote-sets/01M3Z3XYF66CVX02JR558W4QJC")
       .then((res) => res.json())
       .then((data) => {
         if (data && data.emotes) {
