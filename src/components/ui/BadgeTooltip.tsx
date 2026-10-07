@@ -8,11 +8,13 @@ export function BadgeTooltip({
   title,
   subtitle,
   color,
+  href,
 }: {
   icon: React.ReactNode;
   title: string;
   subtitle?: string;
   color: string;
+  href?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -28,12 +30,25 @@ export function BadgeTooltip({
         }}
         onBlur={() => setOpen(false)}
       >
-        <div
-          className="flex items-center justify-center h-[22px] w-[22px] hover:scale-110 transition-transform [&>svg]:w-full [&>svg]:h-full"
-          style={{ color: color }}
-        >
-          {icon}
-        </div>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center h-[22px] w-[22px] hover:scale-110 transition-transform [&>svg]:w-full [&>svg]:h-full"
+            style={{ color: color }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {icon}
+          </a>
+        ) : (
+          <div
+            className="flex items-center justify-center h-[22px] w-[22px] hover:scale-110 transition-transform [&>svg]:w-full [&>svg]:h-full"
+            style={{ color: color }}
+          >
+            {icon}
+          </div>
+        )}
       </TooltipTrigger>
       <TooltipContent side="top" className="bg-bg-primary text-text-primary border-border">
         <div className="flex flex-col items-center gap-0.5 text-center">

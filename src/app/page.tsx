@@ -57,14 +57,21 @@ export default async function Home() {
                         {/* BADGES (DESKTOP) */}
                         <div className="absolute right-6 top-4 hidden sm:flex items-center gap-1">
 
+                          <SevenTvBadge badge={badge} />
+                          <SavedEmotesBadge />
                           <BadgeTooltip
                             title="Születésnap"
                             subtitle="2005. 08. 20."
                             color="#f59e0b"
                             icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8" /><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2 1 2 1" /><path d="M2 21h20" /><path d="M7 8v3" /><path d="M12 8v3" /><path d="M17 8v3" /><path d="M7 4h.01" /><path d="M12 4h.01" /><path d="M17 4h.01" /></svg>}
                           />
-                          <SevenTvBadge badge={badge} />
-                          <SavedEmotesBadge />
+                          <BadgeTooltip
+                            title="Email"
+                            subtitle="contact@szbalesz.com"
+                            color="#60a5fa"
+                            href="mailto:contact@szbalesz.com"
+                            icon={<svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>}
+                          />
                           <ViewCounter />
                         </div>
 
@@ -96,6 +103,18 @@ export default async function Home() {
                               </div>
                             </div>
                             <MobileViewRow />
+                            <a
+                              href="mailto:contact@szbalesz.com"
+                              className="flex items-center gap-3 px-3 py-2 w-full bg-black/20 rounded-md border border-white/5 hover:bg-black/30 hover:border-[#60a5fa]/20 transition-colors group col-span-2"
+                            >
+                              <div className="h-5 w-5 text-[#60a5fa] flex-shrink-0">
+                                <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="100%" width="100%" xmlns="http://www.w3.org/2000/svg"><rect width="20" height="16" x="2" y="4" rx="2" /><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" /></svg>
+                              </div>
+                              <div className="flex flex-col items-start min-w-0">
+                                <span className="text-sm font-bold text-[#60a5fa] truncate">Email</span>
+                                <span className="text-xs text-text-muted truncate">contact@szbalesz.com</span>
+                              </div>
+                            </a>
                             <SavedEmotesBadge isMobile />
                             <SevenTvBadge badge={badge} isMobile />
                           </div>

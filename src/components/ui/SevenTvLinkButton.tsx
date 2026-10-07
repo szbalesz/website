@@ -3,13 +3,14 @@
 import React from "react";
 import { useSavedEmotes } from "@/components/SavedEmotesProvider";
 import { useControls } from "@/components/ControlsProvider";
+import { getSeasonalEmoteSetUrl } from "@/lib/seasonal";
 
 export function SevenTvLinkButton() {
   const { comboCount } = useSavedEmotes();
   const { cardVisible } = useControls();
   return (
     <a
-      href="https://7tv.app/emote-sets/01M3Z3XYF66CVX02JR558W4QJC"
+      href={getSeasonalEmoteSetUrl()}
       target="_blank"
       rel="noopener noreferrer"
       className={`group fixed top-6 right-6 z-50 hidden md:flex items-center justify-center p-2 rounded-full bg-black/40 border border-white/10 transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in ${

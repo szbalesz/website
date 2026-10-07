@@ -5,6 +5,7 @@ import { useLanyard } from "@/hooks/useLanyard";
 import { Ghost } from "lucide-react";
 import { useSavedEmotes } from "@/components/SavedEmotesProvider";
 import { useControls } from "@/components/ControlsProvider";
+import { getSeasonalEmoteSetId } from "@/lib/seasonal";
 
 interface EmoteData {
   id: string;
@@ -61,7 +62,7 @@ export function FloatingEmotes() {
   }, [flyingEmotes]);
 
   useEffect(() => {
-    fetch("https://api.7tv.app/v3/emote-sets/01M3Z3XYF66CVX02JR558W4QJC")
+    fetch(`https://api.7tv.app/v3/emote-sets/${getSeasonalEmoteSetId()}`)
       .then((res) => res.json())
       .then((data) => {
         if (data && data.emotes) {
