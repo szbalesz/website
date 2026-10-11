@@ -19,6 +19,18 @@ const nextConfig: NextConfig = {
         source: '/7tv-proxy/:path*',
         destination: 'https://cdn.7tv.app/:path*',
       },
+      {
+        source: '/7tv-api-proxy/:path*',
+        destination: 'https://api.7tv.app/:path*',
+      },
+      {
+        source: '/discord-proxy/:path*',
+        destination: 'https://cdn.discordapp.com/:path*',
+      },
+      {
+        source: '/media-proxy/:path*',
+        destination: 'https://media.discordapp.net/:path*',
+      }
     ]
   },
 };

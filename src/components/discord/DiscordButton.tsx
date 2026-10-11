@@ -9,7 +9,7 @@ export function DiscordButton({ discordId, discordName }: { discordId: string | 
   // A Discord CDN media URL az sku_id alapján
   let videoUrl = null;
   if (nameplate?.sku_id) {
-    videoUrl = `https://cdn.discordapp.com/media/v1/collectibles-shop/${nameplate.sku_id}/video`;
+    videoUrl = `/discord-proxy/media/v1/collectibles-shop/${nameplate.sku_id}/video`;
   }
 
   const linkTarget = discordId ? `https://discordapp.com/users/${discordId}` : "#";

@@ -10,9 +10,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 const getAssetUrl = (appId: string, assetId: string) => {
   if (!assetId) return null;
   if (assetId.startsWith("mp:external/")) {
-    return `https://media.discordapp.net/external/${assetId.replace("mp:external/", "")}`;
+    return `/media-proxy/external/${assetId.replace("mp:external/", "")}`;
   }
-  return `https://cdn.discordapp.com/app-assets/${appId}/${assetId}.png`;
+  return `/discord-proxy/app-assets/${appId}/${assetId}.png`;
 };
 
 // Segéd a tevékenység típusának szövegéhez
@@ -82,10 +82,10 @@ const TimeTracker = ({ timestamps }: { timestamps?: { start?: number, end?: numb
 
   useEffect(() => {
     if (!start) return;
-    
+
     // Szöveges számláló frissítése másodpercenként
     const interval = setInterval(() => setNow(Date.now()), 1000);
-    
+
     // Progress bar smooth frissítése 60 FPS-el (ha van vége)
     let animationFrameId: number;
     const updateProgress = () => {
@@ -118,9 +118,9 @@ const TimeTracker = ({ timestamps }: { timestamps?: { start?: number, end?: numb
       <div className="flex items-center gap-2 mt-2 w-full text-[11px] text-text-muted font-mono font-medium">
         <span className="w-10 text-left">{formatTime(elapsedMs)}</span>
         <div className="flex-1 h-1.5 bg-black/20 dark:bg-white/10 rounded-full overflow-hidden">
-          <div 
+          <div
             ref={progressRef}
-            className="h-full bg-text-primary rounded-full" 
+            className="h-full bg-text-primary rounded-full"
           />
         </div>
         <span className="w-10 text-right">{formatTime(totalMs)}</span>
@@ -186,11 +186,11 @@ export function LanyardStatus() {
 
   useEffect(() => {
     if (activitiesToRender.length <= 1 || isHovered) return;
-    
+
     const timeout = setTimeout(() => {
       setCurrentIndex((prev) => (prev + 1) % activitiesToRender.length);
     }, 5000);
-    
+
     return () => clearTimeout(timeout);
   }, [activitiesToRender.length, isHovered, currentIndex]);
 
@@ -210,14 +210,14 @@ export function LanyardStatus() {
             </span>
             {activitiesToRender.length > 1 && (
               <div className="flex gap-1.5">
-                <button 
-                  onClick={() => setCurrentIndex(prev => (prev - 1 + activitiesToRender.length) % activitiesToRender.length)} 
+                <button
+                  onClick={() => setCurrentIndex(prev => (prev - 1 + activitiesToRender.length) % activitiesToRender.length)}
                   className="text-text-muted hover:text-text-primary transition-colors bg-white/5 hover:bg-white/10 rounded p-0.5"
                 >
                   <ChevronLeft size={14} />
                 </button>
-                <button 
-                  onClick={() => setCurrentIndex(prev => (prev + 1) % activitiesToRender.length)} 
+                <button
+                  onClick={() => setCurrentIndex(prev => (prev + 1) % activitiesToRender.length)}
                   className="text-text-muted hover:text-text-primary transition-colors bg-white/5 hover:bg-white/10 rounded p-0.5"
                 >
                   <ChevronRight size={14} />
@@ -226,9 +226,9 @@ export function LanyardStatus() {
             )}
           </div>
 
-          <div 
+          <div
             className="flex flex-col p-4 relative h-[140px]"
-            onMouseEnter={() => setIsHovered(true)} 
+            onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <AnimatePresence mode="wait">
@@ -245,100 +245,100 @@ export function LanyardStatus() {
                     const activity = activitiesToRender[currentIndex];
                     if (!activity) return null;
                     const isSpotify = activity.id === "spotify:1" && data?.spotify;
-                    
+
                     return isSpotify ? (
-                    <div className="flex flex-col gap-2 animate-fade">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
-                        Ezt hallgatja: Spotify
-                      </div>
-
-                      <div className="flex gap-3.5 group">
-                        <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="relative h-[72px] w-[72px] flex-shrink-0 cursor-pointer">
-                          {data.spotify.album_art_url ? (
-                            <img src={data.spotify.album_art_url} alt="Album Art" className="w-full h-full object-cover rounded-xl shadow-md" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-[#1DB954]/20 text-[#1DB954] rounded-xl shadow-md">
-                              <Music size={28} className="animate-pulse" />
-                            </div>
-                          )}
-                          <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card p-0.5 flex items-center justify-center border-2 border-card">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" className="w-full h-full object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
-                          </div>
-                        </a>
-
-                        <div className="flex flex-col min-w-0 flex-1 justify-center">
-                          <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-text-primary truncate hover:underline">
-                            {data.spotify.song}
-                          </a>
-                          <span className="text-sm text-text-muted truncate">{data.spotify.artist}</span>
-                          {data.spotify.album && (
-                            <span className="text-xs text-text-muted truncate mt-0.5 opacity-75">{data.spotify.album}</span>
-                          )}
-                          {data.spotify.timestamps && (
-                            <TimeTracker timestamps={data.spotify.timestamps} />
-                          )}
+                      <div className="flex flex-col gap-2 animate-fade">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
+                          Ezt hallgatja: Spotify
                         </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-2 animate-fade">
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
-                        {getActivityVerb(activity.type)}: <span className="text-text-primary">{activity.name}</span>
-                      </div>
 
-                      <div className="flex gap-3.5">
-                        <div className="relative h-[72px] w-[72px] flex-shrink-0">
-                          {activity.assets?.large_image ? (
-                            activity.assets.large_text ? (
-                              <ActivityImageTooltip
-                                image={getAssetUrl(activity.application_id, activity.assets.large_image) || ''}
-                                text={activity.assets.large_text}
-                              />
+                        <div className="flex gap-3.5 group">
+                          <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="relative h-[72px] w-[72px] flex-shrink-0 cursor-pointer">
+                            {data.spotify.album_art_url ? (
+                              <img src={data.spotify.album_art_url} alt="Album Art" className="w-full h-full object-cover rounded-xl shadow-md" />
                             ) : (
-                              <img src={getAssetUrl(activity.application_id, activity.assets.large_image) || ''} alt="Activity" className="w-full h-full object-cover rounded-xl shadow-md" />
-                            )
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20 shadow-md">
-                              {activity.type === 3 ? <Tv size={28} /> :
-                                activity.name.toLowerCase().includes("code") ? <Monitor size={28} /> :
-                                  <Gamepad2 size={28} />}
-                            </div>
-                          )}
-                          {activity.assets?.small_image && (
-                            activity.assets.small_text ? (
-                              <ActivityImageTooltip
-                                image={getAssetUrl(activity.application_id, activity.assets.small_image) || ''}
-                                text={activity.assets.small_text}
-                                isSmall
-                              />
-                            ) : (
-                              <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-card border-[2px] border-card overflow-hidden flex items-center justify-center">
-                                <img src={getAssetUrl(activity.application_id, activity.assets.small_image) || ''} alt="Small Asset" className="w-full h-full object-cover" />
+                              <div className="w-full h-full flex items-center justify-center bg-[#1DB954]/20 text-[#1DB954] rounded-xl shadow-md">
+                                <Music size={28} className="animate-pulse" />
                               </div>
-                            )
-                          )}
-                        </div>
+                            )}
+                            <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card p-0.5 flex items-center justify-center border-2 border-card">
+                              <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" className="w-full h-full object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
+                            </div>
+                          </a>
 
-                        <div className="flex flex-col min-w-0 flex-1 justify-center gap-0.5">
-                          {activity.details && (
-                            <span className="text-sm font-bold text-text-primary truncate">{activity.details}</span>
-                          )}
-                          {activity.state && (
-                            <span className="text-sm text-text-muted line-clamp-2 leading-tight" title={activity.state}>{activity.state}</span>
-                          )}
-
-
-
-                          {/* Idővonal / Eltelt idő */}
-                          {activity.timestamps && (
-                            <TimeTracker timestamps={activity.timestamps} />
-                          )}
+                          <div className="flex flex-col min-w-0 flex-1 justify-center">
+                            <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-text-primary truncate hover:underline">
+                              {data.spotify.song}
+                            </a>
+                            <span className="text-sm text-text-muted truncate">{data.spotify.artist}</span>
+                            {data.spotify.album && (
+                              <span className="text-xs text-text-muted truncate mt-0.5 opacity-75">{data.spotify.album}</span>
+                            )}
+                            {data.spotify.timestamps && (
+                              <TimeTracker timestamps={data.spotify.timestamps} />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })()}
-              </motion.div>
+                    ) : (
+                      <div className="flex flex-col gap-2 animate-fade">
+                        <div className="text-[10px] font-bold uppercase tracking-wider text-text-muted">
+                          {getActivityVerb(activity.type)}: <span className="text-text-primary">{activity.name}</span>
+                        </div>
+
+                        <div className="flex gap-3.5">
+                          <div className="relative h-[72px] w-[72px] flex-shrink-0">
+                            {activity.assets?.large_image ? (
+                              activity.assets.large_text ? (
+                                <ActivityImageTooltip
+                                  image={getAssetUrl(activity.application_id, activity.assets.large_image) || ''}
+                                  text={activity.assets.large_text}
+                                />
+                              ) : (
+                                <img src={getAssetUrl(activity.application_id, activity.assets.large_image) || ''} alt="Activity" className="w-full h-full object-cover rounded-xl shadow-md" />
+                              )
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-blue-500/10 text-blue-400 rounded-xl border border-blue-500/20 shadow-md">
+                                {activity.type === 3 ? <Tv size={28} /> :
+                                  activity.name.toLowerCase().includes("code") ? <Monitor size={28} /> :
+                                    <Gamepad2 size={28} />}
+                              </div>
+                            )}
+                            {activity.assets?.small_image && (
+                              activity.assets.small_text ? (
+                                <ActivityImageTooltip
+                                  image={getAssetUrl(activity.application_id, activity.assets.small_image) || ''}
+                                  text={activity.assets.small_text}
+                                  isSmall
+                                />
+                              ) : (
+                                <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-card border-[2px] border-card overflow-hidden flex items-center justify-center">
+                                  <img src={getAssetUrl(activity.application_id, activity.assets.small_image) || ''} alt="Small Asset" className="w-full h-full object-cover" />
+                                </div>
+                              )
+                            )}
+                          </div>
+
+                          <div className="flex flex-col min-w-0 flex-1 justify-center gap-0.5">
+                            {activity.details && (
+                              <span className="text-sm font-bold text-text-primary truncate">{activity.details}</span>
+                            )}
+                            {activity.state && (
+                              <span className="text-sm text-text-muted line-clamp-2 leading-tight" title={activity.state}>{activity.state}</span>
+                            )}
+
+
+
+                            {/* Idővonal / Eltelt idő */}
+                            {activity.timestamps && (
+                              <TimeTracker timestamps={activity.timestamps} />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </motion.div>
               )}
             </AnimatePresence>
           </div>

@@ -11,7 +11,7 @@ export function DiscordAvatar({ discordId }: { discordId: string | null }) {
 
   const status = data?.discord_status || "offline";
   const user = data?.discord_user;
-  
+
   const getStatusConfig = () => {
     switch (status) {
       case "online": return { color: "#23a559", text: "Online" };
@@ -25,13 +25,13 @@ export function DiscordAvatar({ discordId }: { discordId: string | null }) {
   const { color, text } = getStatusConfig();
 
   // Avatar and Decoration fallback
-  const fallbackAvatar = discordId ? `https://cdn.discordapp.com/avatars/${discordId}/a_a0b61953e1eaff386c8e1bd2a41285d3.gif?size=512` : "";
-  const fallbackDecoration = "https://cdn.discordapp.com/avatar-decoration-presets/a_1a9bd997a5cfdab034f6d512ed494596.png?size=160&passthrough=true";
+  const fallbackAvatar = discordId ? `/discord-proxy/avatars/${discordId}/a_a0b61953e1eaff386c8e1bd2a41285d3.gif?size=512` : "";
+  const fallbackDecoration = "/discord-proxy/avatar-decoration-presets/a_1a9bd997a5cfdab034f6d512ed494596.png?size=160&passthrough=true";
 
   const getAvatarUrl = () => {
     if (!user?.avatar) return fallbackAvatar;
     const isGif = user.avatar.startsWith("a_");
-    return `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${isGif ? "gif" : "png"}?size=512`;
+    return `/discord-proxy/avatars/${user.id}/${user.avatar}.${isGif ? "gif" : "png"}?size=512`;
   };
 
   const getDecorationUrl = () => {
@@ -40,7 +40,7 @@ export function DiscordAvatar({ discordId }: { discordId: string | null }) {
       // But if we don't have user data at all yet, use fallback.
       return user ? null : fallbackDecoration;
     }
-    return `https://cdn.discordapp.com/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png?size=160&passthrough=true`;
+    return `/discord-proxy/avatar-decoration-presets/${user.avatar_decoration_data.asset}.png?size=160&passthrough=true`;
   };
 
   const avatarUrl = getAvatarUrl();
@@ -52,13 +52,13 @@ export function DiscordAvatar({ discordId }: { discordId: string | null }) {
         <AvatarImage src={avatarUrl} className="object-cover" />
         <AvatarFallback>SZ</AvatarFallback>
       </Avatar>
-      
+
       {decorationUrl && (
-        <img 
-          src={decorationUrl} 
-          alt="" 
-          className="pointer-events-none absolute" 
-          style={{ width: '115px', height: '115px', maxWidth: 'none', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)', WebkitMaskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)' }} 
+        <img
+          src={decorationUrl}
+          alt=""
+          className="pointer-events-none absolute"
+          style={{ width: '115px', height: '115px', maxWidth: 'none', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)', WebkitMaskImage: 'radial-gradient(circle at 91.1px 91.1px, transparent 20px, black 21px)' }}
         />
       )}
 

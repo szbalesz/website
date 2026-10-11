@@ -37,7 +37,7 @@ export function DiscordCustomStatus() {
       const extension = emoji.animated ? "gif" : "webp";
       emojiElement = (
         <img
-          src={`https://cdn.discordapp.com/emojis/${emoji.id}.${extension}?size=44`}
+          src={`/discord-proxy/emojis/${emoji.id}.${extension}?size=44`}
           alt={emoji.name}
           className="w-5 h-5 object-contain inline-block drop-shadow-sm"
         />
