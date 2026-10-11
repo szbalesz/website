@@ -11,8 +11,9 @@ export function LanyardProvider({ children, discordId }: { children: ReactNode, 
     if (!discordId) return;
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${discordId}?_t=${Date.now()}`, { 
-          cache: "no-store" 
+        // Itt hívjuk meg a saját Vercel szerveredet, ami a háttérben intézi a Lanyardot
+        const res = await fetch(`/api/lanyard?id=${discordId}&_t=${Date.now()}`, {
+          cache: "no-store"
         });
         const json = await res.json();
         if (json.success) {
@@ -50,4 +51,4 @@ export function LanyardProvider({ children, discordId }: { children: ReactNode, 
 
 export function useLanyard() {
   return useContext(LanyardContext);
-}
+} 

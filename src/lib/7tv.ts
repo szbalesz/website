@@ -1,7 +1,7 @@
 export async function get7TvConnections() {
   const seventvId = process.env.NEXT_PUBLIC_SEVENTV_USER_ID;
   if (!seventvId) return { seventvDisplayName: null, discordId: null, discordName: null, twitchName: null, twitchDisplayName: null, kickName: null, kickDisplayName: null, badge: null };
-  
+
   const query = `
     query {
       user(id: "${seventvId}") {
@@ -56,13 +56,24 @@ export async function get7TvConnections() {
     const json = await res.json();
     const data = json?.data?.user;
     if (!data) throw new Error("Failed to fetch 7tv user");
+    if (data.style?.badge?.host?.url) {
+      data.style.badge.host.url = data.style.badge.host.url
+        .replace('//cdn.7tv.app', '/7tv-proxy')
+        .replace('https://cdn.7tv.app', '/7tv-proxy');
+    }
+
+    if (data.style?.paint?.image_url) {
+      data.style.paint.image_url = data.style.paint.image_url
+        .replace('//cdn.7tv.app', '/7tv-proxy')
+        .replace('https://cdn.7tv.app', '/7tv-proxy');
+    }
 
     const connections = data.connections || [];
-    
+
     const discordConn = connections.find((c: any) => c.platform === "DISCORD");
     const twitchConn = connections.find((c: any) => c.platform === "TWITCH");
     const kickConn = connections.find((c: any) => c.platform === "KICK");
-    
+
     return {
       seventvDisplayName: data.display_name || data.username || null,
       discordId: discordConn?.id || null,

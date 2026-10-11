@@ -5,7 +5,7 @@ import { BadgeTooltip } from "@/components/ui/BadgeTooltip";
 export function SevenTvBadge({ badge, isMobile }: { badge: any, isMobile?: boolean }) {
   if (!badge?.host?.url) return null;
 
-  const badgeUrl = `https:${badge.host.url}/2x.webp`;
+  const badgeUrl = `${badge.host.url}/2x.webp`;
 
   if (isMobile) {
     return (
