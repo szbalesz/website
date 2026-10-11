@@ -252,7 +252,7 @@ export function FloatingEmotes() {
                 } as React.CSSProperties}
               >
                 <img
-                  src={`https://cdn.7tv.app/emote/${emote.emoteId}/2x.webp`}
+                  src={`/7tv-proxy/emote/${emote.emoteId}/2x.webp`}
                   alt={emote.name}
                   className="w-12 h-12 object-contain pointer-events-none select-none"
                   draggable={false}
