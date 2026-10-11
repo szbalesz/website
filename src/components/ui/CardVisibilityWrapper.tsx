@@ -74,8 +74,7 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
                       transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 25 }}
                       className="flex items-center gap-1.5 bg-black/20 px-2 py-0.5 rounded-full"
                     >
-                      <img src={`https://cdn.7tv.app/emote/${emote.id}/1x.webp`} alt={emote.name} className="w-4 h-4 object-contain" />
-                      <span
+                      <img src={`/7tv-proxy/emote/${emote.id}/1x.webp`} alt={emote.name} className="w-4 h-4 object-contain" />                      <span
                         className="text-xs font-bold text-white/90 whitespace-nowrap overflow-hidden max-w-[120px] block"
                         style={{
                           WebkitMaskImage: 'linear-gradient(to right, black 0px, black 100px, transparent 120px)',
@@ -111,7 +110,7 @@ export function CardVisibilityWrapper({ children }: { children: React.ReactNode 
             if (isCooldown) return;
             setHasToggled(true);
             setCardVisible(!isVisible);
-            
+
             // Ha belépünk Játék módba (isVisible true volt, most false lesz) és van aktív combo,
             // akkor a combo delay letiltja a gombot, így nem kell az 1.5s cooldown.
             const willBeDisabledByCombo = isVisible && comboCount > 0;
