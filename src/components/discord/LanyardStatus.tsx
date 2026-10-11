@@ -6,13 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
-// Discord képek feloldása (app-assets vagy külső proxy)
 const getAssetUrl = (appId: string, assetId: string) => {
   if (!assetId) return null;
 
-  // Ha a Discord a saját proxyzott external formátumát küldi
+  // A Discord external media linkjeit a saját Vercel proxy-nkon küldjük át, hogy elkerüljük a 403-as hibát
   if (assetId.startsWith("mp:external/")) {
-    return `/media-proxy/external/${assetId.replace("mp:external/", "")}`;
+    const externalUrl = `https://media.discordapp.net/external/${assetId.replace("mp:external/", "")}`;
+    return `/api/image-proxy?url=${encodeURIComponent(externalUrl)}`;
   }
 
   // HA BÁRMILYEN MÁS KÜLSŐ LINK (pl. Twitch, egyedi Activity)
@@ -20,10 +20,9 @@ const getAssetUrl = (appId: string, assetId: string) => {
     return `/api/image-proxy?url=${encodeURIComponent(assetId)}`;
   }
 
-  // Alapértelmezett Discord app-assets
+  // Alapértelmezett Discord app-assets (ezek általában átmennek a Discord URL mappingjén is)
   return `/discord-proxy/app-assets/${appId}/${assetId}.png`;
 };
-
 // Segéd a tevékenység típusának szövegéhez
 const getActivityVerb = (type: number) => {
   switch (type) {
