@@ -30,6 +30,14 @@ const nextConfig: NextConfig = {
       {
         source: '/media-proxy/:path*',
         destination: 'https://media.discordapp.net/:path*',
+      },
+      {
+        source: '/spotify-proxy/:path*',
+        destination: 'https://i.scdn.co/:path*',
+      },
+      {
+        source: '/wiki-proxy/:path*',
+        destination: 'https://upload.wikimedia.org/:path*',
       }
     ]
   },

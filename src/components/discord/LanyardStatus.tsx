@@ -9,9 +9,18 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 // Discord képek feloldása (app-assets vagy külső proxy)
 const getAssetUrl = (appId: string, assetId: string) => {
   if (!assetId) return null;
+
+  // Ha a Discord a saját proxyzott external formátumát küldi
   if (assetId.startsWith("mp:external/")) {
     return `/media-proxy/external/${assetId.replace("mp:external/", "")}`;
   }
+
+  // HA BÁRMILYEN MÁS KÜLSŐ LINK (pl. Twitch, egyedi Activity)
+  if (assetId.startsWith("http")) {
+    return `/api/image-proxy?url=${encodeURIComponent(assetId)}`;
+  }
+
+  // Alapértelmezett Discord app-assets
   return `/discord-proxy/app-assets/${appId}/${assetId}.png`;
 };
 
@@ -255,14 +264,14 @@ export function LanyardStatus() {
                         <div className="flex gap-3.5 group">
                           <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="relative h-[72px] w-[72px] flex-shrink-0 cursor-pointer">
                             {data.spotify.album_art_url ? (
-                              <img src={data.spotify.album_art_url} alt="Album Art" className="w-full h-full object-cover rounded-xl shadow-md" />
+                              <img src={data.spotify.album_art_url.replace('https://i.scdn.co', '/spotify-proxy')} alt="Album Art" className="w-full h-full object-cover rounded-xl shadow-md" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center bg-[#1DB954]/20 text-[#1DB954] rounded-xl shadow-md">
                                 <Music size={28} className="animate-pulse" />
                               </div>
                             )}
                             <div className="absolute -bottom-1 -right-1 h-6 w-6 rounded-full bg-card p-0.5 flex items-center justify-center border-2 border-card">
-                              <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" className="w-full h-full object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
+                              <img src="/wiki-proxy/wikipedia/commons/1/19/Spotify_logo_without_text.svg" alt="Spotify" className="w-full h-full object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
                             </div>
                           </a>
 
