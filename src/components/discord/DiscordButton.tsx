@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanyard } from "@/hooks/useLanyard";
+import { openExternalLink } from "@/lib/discordLink";
 
 export function DiscordButton({ discordId, discordName }: { discordId: string | null, discordName: string | null }) {
   const data = useLanyard();
@@ -12,10 +13,18 @@ export function DiscordButton({ discordId, discordName }: { discordId: string | 
     videoUrl = `/discord-proxy/media/v1/collectibles-shop/${nameplate.sku_id}/video`;
   }
 
-  const linkTarget = discordId ? `https://discordapp.com/users/${discordId}` : "#";
+  // 🚀 ITT A TRÜKK: Normál https:// helyett a Discord saját belső Deep Linkjét használjuk
+  const linkTarget = discordId ? `discord://-/users/${discordId}` : "#";
 
   return (
-    <a href={linkTarget} target={discordId ? "_blank" : undefined} rel={discordId ? "noopener noreferrer" : undefined} className="block w-full hover:opacity-80 animate-card transition-opacity">
+    <a
+      href={linkTarget}
+      // Ha a link discord:// kezdetű, akkor sem kell a target="_blank", de a biztonság kedvéért itt hagyjuk fallbacknek
+      target={discordId ? "_blank" : undefined}
+      rel={discordId ? "noopener noreferrer" : undefined}
+      onClick={(e) => linkTarget !== "#" && openExternalLink(e, linkTarget)}
+      className="block w-full hover:opacity-80 animate-card transition-opacity"
+    >
       <div
         className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors border relative overflow-hidden group"
         style={{

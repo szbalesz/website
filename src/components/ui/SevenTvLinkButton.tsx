@@ -4,6 +4,7 @@ import React from "react";
 import { useSavedEmotes } from "@/components/SavedEmotesProvider";
 import { useControls } from "@/components/ControlsProvider";
 import { getSeasonalEmoteSetUrl } from "@/lib/seasonal";
+import { openExternalLink } from "@/lib/discordLink";
 
 export function SevenTvLinkButton() {
   const { comboCount } = useSavedEmotes();
@@ -13,9 +14,10 @@ export function SevenTvLinkButton() {
       href={getSeasonalEmoteSetUrl()}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={(e) => openExternalLink(e, getSeasonalEmoteSetUrl())}
       className={`group fixed top-6 right-6 z-50 hidden md:flex items-center justify-center p-2 rounded-full bg-black/40 border border-white/10 transition-all backdrop-blur-sm shadow-lg overflow-hidden animate-button-in ${!cardVisible && comboCount > 0
-          ? 'opacity-30 pointer-events-none cursor-not-allowed'
-          : 'hover:bg-black/60 text-white/70 hover:text-white cursor-pointer'
+        ? 'opacity-30 pointer-events-none cursor-not-allowed'
+        : 'hover:bg-black/60 text-white/70 hover:text-white cursor-pointer'
         }`}
       style={{ animationDelay: '2.2s' }}
     >

@@ -5,6 +5,7 @@ import { Music, Gamepad2, Monitor, Tv, ChevronLeft, ChevronRight } from "lucide-
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanyard } from "@/hooks/useLanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { openExternalLink } from "@/lib/discordLink";
 
 const getAssetUrl = (appId: string, assetId: string) => {
   if (!assetId) return null;
@@ -23,6 +24,7 @@ const getAssetUrl = (appId: string, assetId: string) => {
   // Alapértelmezett Discord app-assets (ezek általában átmennek a Discord URL mappingjén is)
   return `/discord-proxy/app-assets/${appId}/${assetId}.png`;
 };
+
 // Segéd a tevékenység típusának szövegéhez
 const getActivityVerb = (type: number) => {
   switch (type) {
@@ -261,7 +263,13 @@ export function LanyardStatus() {
                         </div>
 
                         <div className="flex gap-3.5 group">
-                          <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="relative h-[72px] w-[72px] flex-shrink-0 cursor-pointer">
+                          <a
+                            href={`https://open.spotify.com/track/${data.spotify.track_id}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={(e) => openExternalLink(e, `https://open.spotify.com/track/${data.spotify.track_id!}`)}
+                            className="relative h-[72px] w-[72px] flex-shrink-0 cursor-pointer"
+                          >
                             {data.spotify.album_art_url ? (
                               <img src={data.spotify.album_art_url.replace('https://i.scdn.co', '/spotify-proxy')} alt="Album Art" className="w-full h-full object-cover rounded-xl shadow-md" />
                             ) : (
@@ -275,7 +283,13 @@ export function LanyardStatus() {
                           </a>
 
                           <div className="flex flex-col min-w-0 flex-1 justify-center">
-                            <a href={`https://open.spotify.com/track/${data.spotify.track_id}`} target="_blank" rel="noreferrer" className="text-sm font-bold text-text-primary truncate hover:underline">
+                            <a
+                              href={`https://open.spotify.com/track/${data.spotify.track_id}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              onClick={(e) => openExternalLink(e, `https://open.spotify.com/track/${data.spotify.track_id!}`)}
+                              className="text-sm font-bold text-text-primary truncate hover:underline"
+                            >
                               {data.spotify.song}
                             </a>
                             <span className="text-sm text-text-muted truncate">{data.spotify.artist}</span>
